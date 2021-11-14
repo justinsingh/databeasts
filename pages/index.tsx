@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import Button from '../components/Button'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           DataBeasts
         </h1>
+        <Button />
       </main>
 
       <footer className={styles.footer}>
