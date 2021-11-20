@@ -2,9 +2,13 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Button from '../components/Button'
+import { useDataBeastsContext } from '../context/DataBeastsContext'
 import styles from '../styles/Home.module.css'
 
+
 const Home: NextPage = () => {
+  const { userAddress, syncWallet } = useDataBeastsContext()
+
   return (
     <div className={styles.container}>
       <Head>
@@ -17,7 +21,7 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           DataBeasts
         </h1>
-        <Button />
+        <Button onClick={syncWallet} />
       </main>
 
       <footer className={styles.footer}>
