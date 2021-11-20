@@ -1,10 +1,15 @@
 import React from 'react';
 import styles from './Button.module.css';
 
-const Button = () => {
-    return (<button type="button" className={styles.button}>
+interface ButtonProps {
+    onClick: (() => void) | (() => Promise<void>)
+}
+
+const Button = ({onClick}: ButtonProps) => {
+    return (
+        <button type="button" className={styles.button} onClick={onClick}>
             Sync Wallet
-            </button>);
+        </button>);
 };
 
 export default Button;
