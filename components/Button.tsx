@@ -2,13 +2,14 @@ import React from 'react';
 import styles from './Button.module.css';
 
 interface ButtonProps {
-    onClick: (() => void) | (() => Promise<void>)
+    text: string;
+    onClick: (() => void)
 }
 
-const Button = ({onClick}: ButtonProps) => {
+const Button = ({text, onClick}: ButtonProps) => {
     return (
         <button type="button" className={styles.button} onClick={onClick}>
-            Sync Wallet
+            {text}
         </button>);
 };
 
