@@ -10,8 +10,9 @@ type ProviderProps = {
 
 // Type for DataBeasts Context
 type DataBeastsContextType = {
-  userAddress: string | undefined;
-  syncWallet: (() => void) | (() => Promise<void>)
+  userAddress: string | undefined
+  syncWallet: () => void 
+  desyncWallet: () => void
 };
 
 // Create context
@@ -68,8 +69,14 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
       }
   }
 
+  const desyncWallet = async () => {
+    await wallet.client.clearActiveAccount()
+    console.log("Wallet disconnected");
+    setUserAddress(undefined);
+  }
+
   return (
-    <DataBeastsContext.Provider value={{ syncWallet, userAddress }} >
+    <DataBeastsContext.Provider value={{ userAddress, syncWallet, desyncWallet }} >
       {children}
     </DataBeastsContext.Provider>
   )

@@ -6,7 +6,7 @@ import { useDataBeastsContext } from '../context/DataBeastsContext'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-  const { syncWallet, userAddress } = useDataBeastsContext();
+  const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
 
   return (
     <div className={styles.container}>
@@ -20,8 +20,13 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           DataBeasts
         </h1>
-        {typeof userAddress !== 'undefined' && <h1>{userAddress}</h1>}
-        {typeof userAddress === 'undefined' && <Button onClick={syncWallet} />}
+        {typeof userAddress !== 'undefined' && (
+          <div className={styles.description}> 
+            <h3>{userAddress}</h3>
+            <Button text="Desync" onClick={desyncWallet} />
+          </div>
+        )}
+        {typeof userAddress === 'undefined' && <Button text="Sync" onClick={syncWallet} />}
       </main>
 
       <footer className={styles.footer}>
