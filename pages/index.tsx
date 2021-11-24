@@ -26,7 +26,7 @@ const Home: NextPage = () => {
             <Button text="Desync" onClick={desyncWallet} />
           </div>
         )}
-        {typeof userAddress === 'undefined' && <Button text="Sync" onClick={syncWallet} />}
+        {typeof userAddress === 'undefined' && <Button text="Sync" onClick={syncWallet} sync={true} />}
       </main>
 
       <footer className={styles.footer}>
