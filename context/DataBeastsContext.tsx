@@ -11,7 +11,7 @@ type ProviderProps = {
 // Type for DataBeasts Context
 type DataBeastsContextType = {
   userAddress: string | undefined
-  syncWallet: () => void 
+  syncWallet: () => void
   desyncWallet: () => void
 };
 
@@ -46,27 +46,27 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
     initState();
   }, []);
 
-  const initState = async() => {
-      const activeAccount = await wallet.client.getActiveAccount();
+  const initState = async () => {
+    const activeAccount = await wallet.client.getActiveAccount();
 
-      if (activeAccount !== undefined) {
-        let address = await wallet.getPKH();
-        setUserAddress(address);
-      }
+    if (activeAccount !== undefined) {
+      let address = await wallet.getPKH();
+      setUserAddress(address);
+    }
   }
 
   const syncWallet = async () => {
-      const network: Network = { type: NetworkType.MAINNET };
-      const activeAccount = await wallet.client.getActiveAccount();
+    const network: Network = { type: NetworkType.MAINNET };
+    const activeAccount = await wallet.client.getActiveAccount();
 
-      // Request wallet connection if no active account found
-      if (activeAccount === undefined){
-        console.log("Requesting wallet connection");
-        await wallet.requestPermissions({ network });
-        let address = await wallet.getPKH();
-        setUserAddress(address);
-        console.log("New connection: ", address);
-      }
+    // Request wallet connection if no active account found
+    if (activeAccount === undefined) {
+      console.log("Requesting wallet connection");
+      await wallet.requestPermissions({ network });
+      let address = await wallet.getPKH();
+      setUserAddress(address);
+      console.log("New connection: ", address);
+    }
   }
 
   const desyncWallet = async () => {
