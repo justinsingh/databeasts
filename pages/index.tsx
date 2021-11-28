@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import Button from '../components/Button'
+import Collection from '../components/Collection'
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 import styles from '../styles/Home.module.css'
 
@@ -21,8 +22,8 @@ const Home: NextPage = () => {
           DataBeasts
         </h1>
         {typeof userAddress !== 'undefined' && (
-          <div className={styles.description}> 
-            <h3>{userAddress}</h3>
+          <div className={styles.description}>
+            <Collection />
             <Button text="Desync" onClick={desyncWallet} />
           </div>
         )}
