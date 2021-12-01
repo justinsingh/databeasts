@@ -5,6 +5,7 @@ import Button from '../components/Button'
 import Collection from '../components/Collection'
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 import styles from '../styles/Home.module.css'
+import titleImage from '../public/databeasts_title_transparent.png'
 
 const Home: NextPage = () => {
   const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
@@ -18,30 +19,19 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          DataBeasts
-        </h1>
-        {typeof userAddress !== 'undefined' && (
-          <div className={styles.description}>
-            <Collection />
-            <Button text="Desync" onClick={desyncWallet} />
-          </div>
-        )}
-        {typeof userAddress === 'undefined' && <Button text="Sync" onClick={syncWallet} sync={true} />}
+        <div className={styles.titleImage}>
+          <Image src={titleImage} alt="DataBeasts Title Image" />
+        </div>
+        <div className={styles.description}>
+          {typeof userAddress !== 'undefined' && (
+            <div> 
+              <Collection />
+              <Button text="Desync" onClick={desyncWallet} />
+            </div>
+          )}
+          {typeof userAddress === 'undefined' && <Button text="Sync" onClick={syncWallet} sync={true} />}
+        </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
