@@ -5,7 +5,7 @@ import Button from '../components/Button'
 import Collection from '../components/Collection'
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 import styles from '../styles/Home.module.css'
-import titleImage from '../public/databeasts_title_transparent.png'
+import titleImage from '../public/databeasts_website_gif.gif'
 
 const Home: NextPage = () => {
   const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
