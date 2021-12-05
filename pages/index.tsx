@@ -41,7 +41,9 @@ const Home: NextPage = () => {
             </WrapItem>
 
             <WrapItem>
-              <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" />
+              <Link href="/collection" passHref>
+                <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" />
+              </Link>
             </WrapItem>
 
             <WrapItem>
