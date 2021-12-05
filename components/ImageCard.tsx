@@ -1,6 +1,6 @@
 import React from 'react';
 //import Image from 'next/image'
-import { Image, VStack, Text } from '@chakra-ui/react'
+import { Image, VStack, Text, Box } from '@chakra-ui/react'
 
 interface ImageCardProps {
   imageSrc: string
@@ -14,19 +14,23 @@ const ImageCard = React.forwardRef(({ imageSrc, imageAlt, caption, href }: Image
   // If there is no ref being passed down to this component
   if (!ref) {
     return (
-      <VStack as="a" href={href} ref={ref} target="_blank" bgColor="rgba(255, 255, 255, 0.85)" borderRadius={10} boxShadow={'md'}>
-        <Image src={imageSrc} alt={imageAlt} />
-        <Text fontWeight="bold">{caption}</Text>
-      </VStack>
+      <Box width={[75, 100, 125]} bgColor="rgba(255, 255, 255, 0.85)" borderRadius={10} boxShadow={'md'}>
+        <VStack as="a" href={href} target="_blank">
+          <Image src={imageSrc} alt={imageAlt} />
+          <Text fontSize={[10, 14, 16]} fontWeight="bold">{caption}</Text>
+        </VStack>
+      </Box>
     );
   }
 
   // If there is a ref being passed down to this component (Such as from a Link component with passHref enabled)
   return (
-      <VStack as="a" href={href} ref={ref} bgColor="rgba(255, 255, 255, 0.85)" borderRadius={10} boxShadow={'md'}>
+    <Box width={[75, 100, 125]} bgColor="rgba(255, 255, 255, 0.85)" borderRadius={10} boxShadow={'md'}>
+      <VStack as="a" href={href} ref={ref}>
         <Image src={imageSrc} alt={imageAlt} />
-        <Text fontWeight="bold">{caption}</Text>
+        <Text fontSize={[10, 14, 16]} fontWeight="bold">{caption}</Text>
       </VStack>
+    </Box>
   );
 });
 
