@@ -33,4 +33,5 @@ const ImageCard = React.forwardRef(({ imageSrc, imageAlt, caption, href }: Image
   );
 });
 
+ImageCard.displayName = 'ImageCard';
 export default ImageCard;
