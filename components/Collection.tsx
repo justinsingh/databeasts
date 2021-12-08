@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 
+type CollectionProps = {
+  address: string | string[] | undefined // This was just supposed to be type string. But, Next's router.query returns string | string[] | undefined. Could this cause an issue?
+}
+
 type CollectionQueryVariables = {
   address: string
 }
@@ -67,8 +71,8 @@ async function fetchGraphQL(operationsDoc: string, operationName: string, variab
   return await result.json();
 }
 
-const fetchCollection = async (userAddress: string) => {
-  const { errors, data } = await fetchGraphQL(query, 'collectorGallery', { address: userAddress });
+const fetchCollection = async (address: string) => {
+  const { errors, data } = await fetchGraphQL(query, 'collectorGallery', { address: address });
   if (errors) {
     console.error(errors);
   }
@@ -76,16 +80,18 @@ const fetchCollection = async (userAddress: string) => {
   return result
 }
 
-const Collection = () => {
-  const { userAddress } = useDataBeastsContext();
+const Collection = ({ address }: CollectionProps) => {
+  //const { userAddress } = useDataBeastsContext();
   const [collectionEntries, setCollectionEntries] = useState<CollectionEntry[] | undefined>(undefined)
 
   useEffect(() => {
-    // Set collectionEntries if fetchCollection() returns entries
-    fetchCollection(userAddress as string).then(res => {
-      if (res.length > 0)
+    // Fetch collection data if address is a string (need to check due to CollectionProps type, see for more info)
+    if (typeof address === 'string') {
+      // Set collectionEntries if fetchCollection() returns entries
+      fetchCollection(address).then(res => {
         setCollectionEntries(res);
-    });
+      });
+    }
   }, []);
 
   return (
