@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDataBeastsContext } from '../context/DataBeastsContext'
+import { Container, Text, VStack } from '@chakra-ui/react'
 
 type CollectionProps = {
   address: string | string[] | undefined // This was just supposed to be type string. But, Next's router.query returns string | string[] | undefined. Could this cause an issue?
@@ -95,15 +96,17 @@ const Collection = ({ address }: CollectionProps) => {
   }, []);
 
   return (
-    <div>
-      {typeof collectionEntries !== 'undefined' && (
-        collectionEntries.map(entry => {
-          if (entry.quantity > 0) {
-            return <h2>{entry.token.description} x{entry.quantity}</h2>
-          }
-        })
-      )}
-    </div>
+    <Container minH="100vh">
+      <VStack>
+        {typeof collectionEntries !== 'undefined' && (
+          collectionEntries.map(entry => {
+            if (entry.quantity > 0) {
+              return <Text>{entry.token.description} x{entry.quantity}</Text>
+            }
+          })
+        )}
+      </VStack>
+    </Container>
   )
 }
 

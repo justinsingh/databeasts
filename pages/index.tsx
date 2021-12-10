@@ -1,13 +1,10 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import Link from 'next/link'
 import { Image } from '@chakra-ui/react'
 import ImageCard from '../components/ImageCard'
 import Button from '../components/Button'
 import { useDataBeastsContext } from '../context/DataBeastsContext'
-import faviconImage from '../public/databeasts_favicon.png'
 import titleImage from '../public/databeasts_website_gif.gif'
-import backgroundImage from '../public/webbackground.png'
 import aboutImage from '../public/about.gif'
 import discordImage from '../public/discord.gif'
 import shopImage from '../public/shop.gif'
@@ -21,13 +18,7 @@ const Home: NextPage = () => {
 
   return (
     <Container maxW="100vw" h="100vh" p={0}>
-      <Head>
-        <title>DataBeasts</title>
-        <meta name="description" content="Interact With Your DataBeasts" />
-        <link rel="icon" href={faviconImage.src} />
-      </Head>
-
-      <VStack w="100vw" h="100vh" p={10} bgSize="cover" bgImage={backgroundImage.src} bgPosition="center" bgRepeat="no-repeat" spacing={10}>
+      <VStack p={10} spacing={10}>
         <Box maxW="850px">
           <Image width={[300, 600, 850]} height={[150, 300, 425]} className="titleImage" src={titleImage.src} alt="DataBeasts Title Image" />
         </Box>
