@@ -24,7 +24,7 @@ const Home: NextPage = () => {
         </Box>
 
         <HStack maxW="100vw">
-          <Wrap spacing={[5, 7.5, 9]} justify="center">
+          <Wrap spacing={[4, 6, 7]} justify="center">
             <WrapItem>
               <Link href="/about" passHref>
                 <ImageCard imageSrc={aboutImage.src} imageAlt="About DataBeasts" caption="About" />
