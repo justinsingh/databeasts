@@ -10,7 +10,7 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <Container maxW="100vw" bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="no-repeat">
+    <Container maxW="100vw" bgImage={backgroundImage.src} bgAttachment="fixed" bgSize="cover" bgPosition="center" bgRepeat="no-repeat">
       <Head>
         <title>DataBeasts</title>
         <meta name="description" content="Interact With Your DataBeasts" />
