@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 import { Container, Text, VStack } from '@chakra-ui/react'
+import { getBeastNameFromTitle } from '../utils/stringOperations'
 
 type CollectionProps = {
-  address: string | string[] | undefined // This was just supposed to be type string. But, Next's router.query returns string | string[] | undefined. Could this cause an issue?
+  /*
+  This was just supposed to be type string. 
+  But, Next's router.query returns string | string[] | undefined. 
+  This causes the need for additional checks.
+  */
+  address: string | string[] | undefined 
 }
 
 type CollectionQueryVariables = {
@@ -101,7 +107,11 @@ const Collection = ({ address }: CollectionProps) => {
         {typeof collectionEntries !== 'undefined' && (
           collectionEntries.map(entry => {
             if (entry.quantity > 0) {
-              return <Text>{entry.token.description} x{entry.quantity}</Text>
+              return (
+              <Text>
+                {getBeastNameFromTitle(entry.token.title)} x{entry.quantity}
+              </Text>
+              )
             }
           })
         )}
