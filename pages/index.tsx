@@ -10,7 +10,6 @@ import discordImage from '../public/discord.gif'
 import shopImage from '../public/shop.gif'
 import twitterImage from '../public/twitter.gif'
 import viewImage from '../public/view.gif'
-import syncButtonImage from '../public/sync_button.gif'
 import { Container, VStack, HStack, Box, Wrap, WrapItem, Text } from '@chakra-ui/react'
 
 const Home: NextPage = () => {
@@ -33,7 +32,7 @@ const Home: NextPage = () => {
 
             <WrapItem>
               {typeof userAddress === 'undefined' ?
-                <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" syncAlert />
+                <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" isSyncAlert />
                 :
                 <Link href={"/collection/" + userAddress} passHref>
                   <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" />
