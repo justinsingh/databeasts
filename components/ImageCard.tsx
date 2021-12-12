@@ -7,9 +7,22 @@ interface ImageCardProps {
   caption: string
   href?: string   // href is optional in the case of ImageCard being a child of a Link component with passHref enabled
                   // In the above case, href would not be an explicit prop passed down to ImageCard
+  syncAlert?: boolean
 }
 
-const ImageCard = React.forwardRef(({ imageSrc, imageAlt, caption, href }: ImageCardProps, ref: any) => {
+const ImageCard = React.forwardRef(({ imageSrc, imageAlt, caption, href, syncAlert=false }: ImageCardProps, ref: any) => {
+  // If no href
+  if (syncAlert) {
+    return (
+      <Box cursor="pointer" onClick={() => alert("Please sync your Tezos wallet")} width={[75, 100, 125]} bgColor="rgba(255, 255, 255, 0.85)" borderRadius={10} boxShadow={'md'}>
+        <VStack>
+          <Image src={imageSrc} alt={imageAlt} />
+          <Text fontSize={[10, 14, 16]} fontWeight="bold">{caption}</Text>
+        </VStack>
+      </Box>
+    )
+  }
+
   // If there is no ref being passed down to this component
   if (!ref) {
     return (

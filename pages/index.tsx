@@ -11,10 +11,10 @@ import shopImage from '../public/shop.gif'
 import twitterImage from '../public/twitter.gif'
 import viewImage from '../public/view.gif'
 import syncButtonImage from '../public/sync_button.gif'
-import { Container, VStack, HStack, Box, Wrap, WrapItem } from '@chakra-ui/react'
+import { Container, VStack, HStack, Box, Wrap, WrapItem, Text } from '@chakra-ui/react'
 
 const Home: NextPage = () => {
-  const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
+  const { userAddress } = useDataBeastsContext();
 
   return (
     <Container maxW="100vw" h="100vh" p={0}>
@@ -26,15 +26,19 @@ const Home: NextPage = () => {
         <HStack maxW="100vw">
           <Wrap spacing={[4, 6, 7]} justify="center">
             <WrapItem>
-              <Link href="/about" passHref>
-                <ImageCard imageSrc={aboutImage.src} imageAlt="About DataBeasts" caption="About" />
-              </Link>
+                <Link href="/about" passHref>
+                  <ImageCard imageSrc={aboutImage.src} imageAlt="About DataBeasts" caption="About" />
+                </Link>
             </WrapItem>
 
             <WrapItem>
-              <Link href="/collection" passHref>
-                <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" />
-              </Link>
+              {typeof userAddress === 'undefined' ?
+                <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" syncAlert />
+                :
+                <Link href={"/collection/" + userAddress} passHref>
+                  <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" />
+                </Link>
+              }
             </WrapItem>
 
             <WrapItem>
