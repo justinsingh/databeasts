@@ -4,7 +4,7 @@ import faviconImage from '../public/databeasts_favicon.png'
 import { Container, Box, Image } from '@chakra-ui/react'
 import backgroundImage from '../public/webbackground-2.png'
 import syncButtonImage from '../public/sync_button.png'
-import unsyncButtonImage from '../public/sync_button.png'
+import unsyncButtonImage from '../public/unsync_button.png'
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 
 type LayoutProps = {
