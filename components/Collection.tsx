@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDataBeastsContext } from '../context/DataBeastsContext'
-import { Container, Text, VStack } from '@chakra-ui/react'
-import { getBeastNameFromTitle } from '../utils/stringOperations'
+import { Box, Container, HStack, Wrap, WrapItem, Center } from '@chakra-ui/react'
+import CollectionEntry from './CollectionEntry'
 
 type CollectionProps = {
   /*
@@ -9,7 +8,7 @@ type CollectionProps = {
   But, Next's router.query returns string | string[] | undefined. 
   This causes the need for additional checks.
   */
-  address: string | string[] | undefined 
+  address: string | string[] | undefined
 }
 
 type CollectionQueryVariables = {
@@ -17,14 +16,15 @@ type CollectionQueryVariables = {
 }
 
 type Token = {
-  artifactURI: string
-  displayURI: string
-  thumbnailURI: string
+  id: number,
+  artifact_uri: string
+  display_uri: string
+  thumbnail_uri: string
   title: string
   description: string
 }
 
-type CollectionEntry = {
+export type CollectionEntryProps = {
   quantity: number
   token: Token
 }
@@ -88,8 +88,7 @@ const fetchCollection = async (address: string) => {
 }
 
 const Collection = ({ address }: CollectionProps) => {
-  //const { userAddress } = useDataBeastsContext();
-  const [collectionEntries, setCollectionEntries] = useState<CollectionEntry[] | undefined>(undefined)
+  const [collectionEntries, setCollectionEntries] = useState<CollectionEntryProps[] | undefined>(undefined)
 
   useEffect(() => {
     // Fetch collection data if address is a string (need to check due to CollectionProps type, see for more info)
@@ -102,21 +101,21 @@ const Collection = ({ address }: CollectionProps) => {
   }, []);
 
   return (
-    <Container minH="100vh">
-      <VStack>
-        {typeof collectionEntries !== 'undefined' && (
-          collectionEntries.map(entry => {
-            if (entry.quantity > 0) {
-              return (
-              <Text>
-                {getBeastNameFromTitle(entry.token.title)} x{entry.quantity}
-              </Text>
-              )
-            }
-          })
-        )}
-      </VStack>
-    </Container>
+      <Box maxW="1300px" minH="100vh">
+        <Wrap justify="center" spacing={5}>
+          {typeof collectionEntries !== 'undefined' && (
+            collectionEntries.map(entry => {
+              if (entry.quantity > 0) {
+                return (
+                  <WrapItem p={0} key={entry.token.id}>
+                    <CollectionEntry quantity={entry.quantity} token={entry.token} />
+                  </WrapItem>
+                )
+              }
+            })
+          )}
+        </Wrap>
+      </Box>
   )
 }
 
