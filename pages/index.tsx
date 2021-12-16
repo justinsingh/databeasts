@@ -2,7 +2,6 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import { Image } from '@chakra-ui/react'
 import ImageCard from '../components/ImageCard'
-import Button from '../components/Button'
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 import titleImage from '../public/databeasts_website_gif.gif'
 import aboutImage from '../public/about.gif'
@@ -19,7 +18,7 @@ const Home: NextPage = () => {
     <Container maxW="100vw" h="100vh" p={0}>
       <VStack p={10} spacing={10}>
         <Box maxW="850px">
-          <Image width={[300, 600, 850]} height={[150, 300, 425]} className="titleImage" src={titleImage.src} alt="DataBeasts Title Image" />
+          <Image width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
         </Box>
 
         <HStack maxW="100vw">
