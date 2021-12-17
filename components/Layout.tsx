@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head'
+import Link from 'next/link'
 import faviconImage from '../public/databeasts_favicon.png'
 import { Container, Box, Image, HStack, Center } from '@chakra-ui/react'
 import backgroundImage from '../public/webbackground-2.png'
@@ -22,20 +23,22 @@ const Layout = ({ children }: LayoutProps) => {
         <meta name="description" content="Interact With Your DataBeasts" />
         <link rel="icon" href={faviconImage.src} />
       </Head>
-        <Center>
-          <Box mt={10} pb={10} maxW="850px">
-            <Image width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
-          </Box>
-        </Center>
-
-        <Box cursor="pointer" pos="absolute" top={5} right={5}>
-          <Image
-            src={typeof userAddress === 'undefined' ? syncButtonImage.src : unsyncButtonImage.src}
-            onClick={typeof userAddress === 'undefined' ? syncWallet : desyncWallet}
-            width={[61, 90, 110]} height={[27, 41, 50]}
-            userSelect="none"
-          />
+      <Center>
+        <Box mt={10} mb={10} maxW="850px">
+          <Link href="/">
+            <Image cursor="pointer" width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
+          </Link>
         </Box>
+      </Center>
+
+      <Box cursor="pointer" pos="absolute" top={5} right={5}>
+        <Image
+          src={typeof userAddress === 'undefined' ? syncButtonImage.src : unsyncButtonImage.src}
+          onClick={typeof userAddress === 'undefined' ? syncWallet : desyncWallet}
+          width={[61, 90, 110]} height={[27, 41, 50]}
+          userSelect="none"
+        />
+      </Box>
       {children}
     </Container>
   )
