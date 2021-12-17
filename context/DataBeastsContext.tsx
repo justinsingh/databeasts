@@ -30,21 +30,27 @@ export const useDataBeastsContext = () => {
 }
 
 const Tezos = new TezosToolkit("https://mainnet-tezos.giganode.io");
+var wallet: BeaconWallet
 
 export const DataBeastsProvider = ({ children }: ProviderProps) => {
+  console.log("provider rendering");
   const [userAddress, setUserAddress] = useState<string | undefined>(undefined);
 
-  const wallet = new BeaconWallet({
-    name: "DataBeasts",
-    preferredNetwork: NetworkType.MAINNET,
-  });
-  Tezos.setWalletProvider(wallet);
-
   useEffect(() => {
-    initState();
+    wallet = new BeaconWallet({
+      name: "DataBeasts",
+      preferredNetwork: NetworkType.MAINNET,
+    });
+
+    Tezos.setWalletProvider(wallet);
+    initUserAddress();
+
+    return () => {
+      destroyClient();
+    }
   }, []);
 
-  const initState = async () => {
+  const initUserAddress = async () => {
     const activeAccount = await wallet.client.getActiveAccount();
 
     if (activeAccount !== undefined) {
@@ -62,7 +68,7 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
       console.log("Requesting wallet connection");
       await wallet.requestPermissions({ network });
       let address = await wallet.getPKH();
-      setUserAddress(address);
+      setUserAddress(address); // By changing state, we rerender the provider
       console.log("New connection: ", address);
     }
   }
@@ -71,6 +77,11 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
     await wallet.client.clearActiveAccount()
     console.log("Wallet disconnected");
     setUserAddress(undefined);
+  }
+
+  const destroyClient = async () => {
+    await wallet.client.destroy()
+    console.log("Client destroyed");
   }
 
   return (
