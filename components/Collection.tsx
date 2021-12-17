@@ -101,8 +101,8 @@ const Collection = ({ address }: CollectionProps) => {
   }, []);
 
   return (
-      <Box maxW="1300px" minH="100vh">
-        <Wrap justify="center" spacing={5}>
+      <Box maxW="1240" minH="100vh">
+        <Wrap spacing={5}>
           {typeof collectionEntries !== 'undefined' && (
             collectionEntries.map(entry => {
               if (entry.quantity > 0) {

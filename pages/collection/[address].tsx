@@ -9,7 +9,7 @@ const CollectionPage: NextPage = () => {
   const { address } = router.query;
 
   return (
-    <VStack>
+    <VStack p={10} spacing={10}>
       <Box maxW="850px">
         <Image width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
       </Box>
