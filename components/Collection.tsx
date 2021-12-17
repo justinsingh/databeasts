@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, HStack, Wrap, WrapItem, Center } from '@chakra-ui/react'
+import { Box, Wrap, WrapItem } from '@chakra-ui/react'
 import CollectionEntry from './CollectionEntry'
 
 type CollectionProps = {
@@ -101,8 +101,8 @@ const Collection = ({ address }: CollectionProps) => {
   }, []);
 
   return (
-      <Box maxW="1240" minH="100vh">
-        <Wrap spacing={5}>
+      <Box maxW="1248">
+        <Wrap spacing={0}>
           {typeof collectionEntries !== 'undefined' && (
             collectionEntries.map(entry => {
               if (entry.quantity > 0) {

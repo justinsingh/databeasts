@@ -9,19 +9,14 @@ import discordImage from '../public/discord.gif'
 import shopImage from '../public/shop.gif'
 import twitterImage from '../public/twitter.gif'
 import viewImage from '../public/view.gif'
-import { Container, VStack, HStack, Box, Wrap, WrapItem, Text } from '@chakra-ui/react'
+import { Center, Container, VStack, HStack, Stack, Box, Wrap, WrapItem, Text } from '@chakra-ui/react'
 
 const Home: NextPage = () => {
   const { userAddress } = useDataBeastsContext();
 
   return (
-    <Container maxW="100vw" h="100vh" p={0}>
-      <VStack p={10} spacing={10}>
-        <Box maxW="850px">
-          <Image width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
-        </Box>
-
-        <HStack maxW="100vw">
+    <Container maxW="100vw" p={0}>
+        <Stack> 
           <Wrap spacing={[4, 6, 7]} justify="center">
             <WrapItem>
                 <Link href="/about" passHref>
@@ -51,8 +46,7 @@ const Home: NextPage = () => {
               <ImageCard imageSrc={twitterImage.src} imageAlt="DataBeasts Twitter" caption="Twitter" href="https://mobile.twitter.com/databeasts" />
             </WrapItem>
           </Wrap>
-        </HStack>
-      </VStack>
+        </Stack>
     </Container>
   )
 }
