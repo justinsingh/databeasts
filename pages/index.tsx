@@ -15,6 +15,20 @@ const Home: NextPage = () => {
   const { userAddress } = useDataBeastsContext();
 
   return (
+    <Center>
+      <VStack marginTop="30vh">
+        <Text fontSize={"5vw"} >DataBeasts Under Construction</Text>
+        <HStack>
+          <Text fontSize={"3vw"}>Follow on </Text>
+          <Text color="blue" textDecoration={"underline"} fontSize={"3vw"} as="a" href="https://twitter.com/databeasts">Twitter </Text>
+          <Text fontSize={"3vw"}>for updates!</Text>
+        </HStack>
+        <Text fontSize={"3vw"} >Thx for your interest :)</Text>
+      </VStack>
+    </Center>
+  )
+  /*
+  return (
     <Container maxW="100vw" p={0}>
         <Stack> 
           <Wrap spacing={[4, 6, 7]} justify="center">
@@ -49,6 +63,7 @@ const Home: NextPage = () => {
         </Stack>
     </Container>
   )
+  */
 }
 
 export default Home

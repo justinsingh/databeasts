@@ -1,12 +1,23 @@
 import { useRouter } from "next/dist/client/router"
 import type { NextPage } from 'next'
-import Collection from "../../components/Collection"
-import { Box, VStack, Image } from "@chakra-ui/react"
+//import Collection from "../../components/Collection"
+//import { Box, VStack, Image } from "@chakra-ui/react"
+import { useEffect } from "react"
 
 const CollectionPage: NextPage = () => {
   const router = useRouter();
   const { address } = router.query;
 
+  
+  useEffect(() => {
+    router.push("/");
+  })
+
+  return (
+    <>
+    </>
+  )
+  /*
   return (
     <VStack spacing={10}>
       <Box>
@@ -14,6 +25,7 @@ const CollectionPage: NextPage = () => {
       </Box>
     </VStack>
   )
+  */
 }
 
 export default CollectionPage;
