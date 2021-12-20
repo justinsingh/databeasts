@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Wrap, WrapItem } from '@chakra-ui/react'
+import { Flex, Box, Wrap, WrapItem } from '@chakra-ui/react'
 import CollectionEntry from './CollectionEntry'
 
 type CollectionProps = {
@@ -31,7 +31,7 @@ export type CollectionEntryProps = {
 
 const query = `
 query collectorGallery($address: String!) {
-  hic_et_nunc_token_holder(where: {holder_id: {_eq: $address}, token: {supply: {_gt: "0"}, creator_id: {_eq: "tz1e2DSjooZBbya7QwJsQUR5Z59dHpcEb97z"}}}, order_by: {id: asc}) {
+  hic_et_nunc_token_holder(where: {holder_id: {_eq: $address}, token: {supply: {_gt: "0"}, creator_id: {_eq: "tz1e2DSjooZBbya7QwJsQUR5Z59dHpcEb97z"}}, quantity: {_gt: "0"}}, order_by: {token_id: asc}) {
     quantity
     token {
       id
@@ -43,20 +43,6 @@ query collectorGallery($address: String!) {
       title
       description
       supply
-      token_tags {
-        tag {
-          tag
-        }
-      }
-      creator {
-        address
-      }
-      swaps(where: {status: {_eq: "0"}}, order_by: {price: asc}) {
-        amount
-        amount_left
-        creator_id
-        price
-      }
     }
   }
 }
@@ -101,21 +87,19 @@ const Collection = ({ address }: CollectionProps) => {
   }, []);
 
   return (
-      <Box maxW="1248">
-        <Wrap spacing={0}>
-          {typeof collectionEntries !== 'undefined' && (
-            collectionEntries.map(entry => {
-              if (entry.quantity > 0) {
-                return (
-                  <WrapItem p={0} key={entry.token.id}>
-                    <CollectionEntry quantity={entry.quantity} token={entry.token} />
-                  </WrapItem>
-                )
-              }
-            })
-          )}
-        </Wrap>
-      </Box>
+    <Flex maxW={[350, 624, 1248]}>
+      <Wrap spacing={0}>
+        {typeof collectionEntries !== 'undefined' && (
+          collectionEntries.map(entry => {
+            return (
+              <WrapItem p={0} key={entry.token.id}>
+                <CollectionEntry quantity={entry.quantity} token={entry.token} />
+              </WrapItem>
+            )
+          })
+        )}
+      </Wrap>
+    </Flex>
   )
 }
 
