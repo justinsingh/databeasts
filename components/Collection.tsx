@@ -87,19 +87,17 @@ const Collection = ({ address }: CollectionProps) => {
   }, []);
 
   return (
-    <Flex maxW={[350, 624, 1248]}>
-      <Wrap spacing={0}>
-        {typeof collectionEntries !== 'undefined' && (
-          collectionEntries.map(entry => {
-            return (
-              <WrapItem p={0} key={entry.token.id}>
-                <CollectionEntry quantity={entry.quantity} token={entry.token} />
-              </WrapItem>
-            )
-          })
-        )}
-      </Wrap>
-    </Flex>
+    <Wrap spacing={0} maxW={[332, 832, 1248]}>
+      {typeof collectionEntries !== 'undefined' && (
+        collectionEntries.map(entry => {
+          return (
+            <WrapItem p={0} key={entry.token.id}>
+              <CollectionEntry quantity={entry.quantity} token={entry.token} />
+            </WrapItem>
+          )
+        })
+      )}
+    </Wrap>
   )
 }
 

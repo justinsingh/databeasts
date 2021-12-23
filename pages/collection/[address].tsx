@@ -9,9 +9,7 @@ const CollectionPage: NextPage = () => {
 
   return (
     <VStack spacing={10}>
-      <Box>
-        {router.isReady && (<Collection address={address} />)}
-      </Box>
+      {router.isReady && (<Collection address={address} />)}
     </VStack>
   )
 }
