@@ -33,7 +33,6 @@ const Tezos = new TezosToolkit("https://mainnet-tezos.giganode.io");
 var wallet: BeaconWallet
 
 export const DataBeastsProvider = ({ children }: ProviderProps) => {
-  console.log("provider rendering");
   const [userAddress, setUserAddress] = useState<string | undefined>(undefined);
 
   useEffect(() => {
