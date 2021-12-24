@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Flex, Box, Wrap, WrapItem } from '@chakra-ui/react'
+import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 
 type CollectionProps = {
@@ -85,23 +86,28 @@ const Collection = ({ address }: CollectionProps) => {
       fetchCollection(address).then(entries => {
         setCollectionEntries(entries);
         setDistinctBeasts(entries.length);
-        setTotalBeasts(entries.reduce((a: CollectionEntryProps, b: CollectionEntryProps) => ({quantity: a.quantity + b.quantity})));
+        setTotalBeasts(entries.reduce((a: CollectionEntryProps, b: CollectionEntryProps) => ({ quantity: a.quantity + b.quantity })).quantity);
       });
     }
   }, []);
 
   return (
-    <Wrap spacing={0} maxW={[332, 832, 1248]}>
+    <>
       {typeof collectionEntries !== 'undefined' && (
-        collectionEntries.map(entry => {
-          return (
-            <WrapItem p={0} key={entry.token.id}>
-              <CollectionEntry quantity={entry.quantity} token={entry.token} />
-            </WrapItem>
-          )
-        })
+        <>
+          <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
+          <Wrap spacing={0} maxW={[332, 832, 1248]}>
+            {collectionEntries.map(entry => {
+              return (
+                <WrapItem p={0} key={entry.token.id}>
+                  <CollectionEntry quantity={entry.quantity} token={entry.token} />
+                </WrapItem>
+              )}
+            )}
+          </Wrap>
+        </>
       )}
-    </Wrap>
+    </>
   )
 }
 
