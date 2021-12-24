@@ -74,14 +74,18 @@ const fetchCollection = async (address: string) => {
 }
 
 const Collection = ({ address }: CollectionProps) => {
-  const [collectionEntries, setCollectionEntries] = useState<CollectionEntryProps[] | undefined>(undefined)
+  const [collectionEntries, setCollectionEntries] = useState<CollectionEntryProps[]>()
+  const [totalBeasts, setTotalBeasts] = useState<number>(0);
+  const [distinctBeasts, setDistinctBeasts] = useState<number>(0);
 
   useEffect(() => {
     // Fetch collection data if address is a string (need to check due to CollectionProps type, see for more info)
     if (typeof address === 'string') {
       // Set collectionEntries if fetchCollection() returns entries
-      fetchCollection(address).then(res => {
-        setCollectionEntries(res);
+      fetchCollection(address).then(entries => {
+        setCollectionEntries(entries);
+        setDistinctBeasts(entries.length);
+        setTotalBeasts(entries.reduce((a: CollectionEntryProps, b: CollectionEntryProps) => ({quantity: a.quantity + b.quantity})));
       });
     }
   }, []);
