@@ -32,7 +32,7 @@ export type CollectionEntryProps = {
 
 const query = `
 query collectorGallery($address: String!) {
-  hic_et_nunc_token_holder(where: {holder_id: {_eq: $address}, token: {supply: {_gt: "0"}, creator_id: {_eq: "tz1e2DSjooZBbya7QwJsQUR5Z59dHpcEb97z"}}, quantity: {_gt: "0"}}, order_by: {token_id: asc}) {
+  hic_et_nunc_token_holder(where: {holder_id: {_eq: $address}, token: {supply: {_gt: "0"}, creator_id: {_eq: "tz1e2DSjooZBbya7QwJsQUR5Z59dHpcEb97z"}}, quantity: {_gt: "0"}}, order_by: {token_id: desc}) {
     quantity
     token {
       id
@@ -96,7 +96,7 @@ const Collection = ({ address }: CollectionProps) => {
       {typeof collectionEntries !== 'undefined' && (
         <>
           <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
-          <Wrap spacing={0} maxW={[332, 832, 1248]}>
+          <Wrap marginTop={0} spacing={0} maxW={[332, 832, 1248]}>
             {collectionEntries.map(entry => {
               return (
                 <WrapItem p={0} key={entry.token.id}>
