@@ -8,7 +8,7 @@ const CollectionPage: NextPage = () => {
   const { address } = router.query;
 
   return (
-    <VStack spacing={10}>
+    <VStack spacing={0}>
       {router.isReady && (<Collection address={address} />)}
     </VStack>
   )

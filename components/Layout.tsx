@@ -25,7 +25,7 @@ const Layout = ({ children }: LayoutProps) => {
         <link rel="icon" href={faviconImage.src} />
       </Head>
       <Center>
-        <Box mt={10} mb={10} maxW="850px">
+        <Box mt={[4, 0]} mb={5} maxW="850px">
           <Link href="/">
             <Image cursor="pointer" width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
           </Link>
