@@ -17,7 +17,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
     <Box m={2} paddingBottom={2} bgColor="rgba(255, 255, 255)" borderRadius={10} boxShadow={'md'}>
       <VStack>
         <Image borderTopRadius={10} width={[150, 300, 400]} height={[150, 300, 400]} src={entryImageSrc} />
-        <HStack fontWeight="bold" paddingTop={2} paddingBottom={2}>
+        <HStack wordBreak={"break-word"} fontWeight="bold" paddingTop={2} paddingBottom={2}>
           <Text>{getBeastNameFromTitle(token.title)}</Text>
           <Text>{"x" + quantity}</Text>
         </HStack>
