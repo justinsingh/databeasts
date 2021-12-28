@@ -1,7 +1,7 @@
 import { useRouter } from "next/dist/client/router"
 import type { NextPage } from 'next'
 import Collection from "../../components/Collection"
-import { Box, VStack, Image } from "@chakra-ui/react"
+import { VStack } from "@chakra-ui/react"
 
 const CollectionPage: NextPage = () => {
   const router = useRouter();

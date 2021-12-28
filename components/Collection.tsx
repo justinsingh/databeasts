@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Flex, Box, Wrap, WrapItem } from '@chakra-ui/react'
+import { Wrap, WrapItem } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 

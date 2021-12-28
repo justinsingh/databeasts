@@ -7,7 +7,7 @@ import discordImage from '../public/discord.gif'
 import shopImage from '../public/shop.gif'
 import twitterImage from '../public/twitter.gif'
 import viewImage from '../public/view.gif'
-import { Center, Container, VStack, HStack, Stack, Box, Wrap, WrapItem, Text } from '@chakra-ui/react'
+import { Center, Stack, Wrap, WrapItem} from '@chakra-ui/react'
 
 const Home: NextPage = () => {
   const { userAddress } = useDataBeastsContext();

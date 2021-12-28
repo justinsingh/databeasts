@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Box, Text, Center, VStack, HStack, Tooltip} from '@chakra-ui/react'
+import { Flex, Box, Text, VStack, HStack, Tooltip} from '@chakra-ui/react'
 import { shortenAddress } from '../utils/stringOperations'
 import { useMediaQuery } from "@chakra-ui/react"
 
