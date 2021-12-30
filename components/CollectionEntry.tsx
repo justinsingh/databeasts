@@ -1,7 +1,8 @@
 import React from "react";
 import { CollectionEntryProps } from './Collection'
 import { getBeastNameFromTitle, getBeastNumberFromTitle, getHashFromIpfsURI } from '../utils/stringOperations'
-import { Flex, VStack, Image, Box, HStack, Text, Circle, calc } from "@chakra-ui/react";
+import { isSafari } from "../utils/browserOperations";
+import { Flex, VStack, Image, Box, HStack, Text, Circle, calc, baseStyle } from "@chakra-ui/react";
 
 // Styling values for common beasts
 const blueHex = "#0043C1"
@@ -19,6 +20,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   var entryImageSrc: string;
   var beastColorHex: string;
   var beastColorGradient: string;
+  var isSafariBrowser = isSafari();
 
   if (token.supply > 10 && token.id !== 572968) {
     beastColorHex = blueHex;
@@ -48,46 +50,38 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
             fontSize={[13, 19]}
             fontWeight="bold"
             position="absolute"
-            top="-3"
-            left="-3"
+            top={isSafariBrowser ? '-5' : "-3"}
+            left={isSafariBrowser ? '-5' : "-3"}
             size={["45px", "65px"]}
             bgColor={beastColorHex}
             bgImage={beastColorGradient}
             color="white"
-            boxShadow={["lg"]}
+            boxShadow={"lg"}
             borderWidth={3}
             borderColor="white"
-            outline={beastColorHex + " solid 5px"}
+            outline={isSafariBrowser ? '' : beastColorHex + " solid 5px"}
           >
             <Text>#{getBeastNumberFromTitle(token.title)}</Text>
           </Circle>
-          <Image width={[250, 300, 400]} height={[250, 300, 400]} src={entryImageSrc} borderRadius={10} outline={beastColorHex + " solid 5px"} />
+          <Box borderRadius={10} borderWidth={5} borderColor={beastColorHex}>
+            <Image borderRadius={5} zIndex={3} width={[250, 300, 400]} height={[250, 300, 400]} src={entryImageSrc} />
+          </Box>
         </Box>
         <HStack
-        /*
-          paddingTop={2}
-          paddingBottom={2}
-          paddingLeft={5}
-          paddingRight={5}
-          */
           spacing={0}
           wordBreak={"break-word"}
           fontSize={[15, 20]}
           fontWeight="bold"
           borderRadius={10}
-          /*
-          borderWidth={4}
-          borderColor={orangeHex}        
+          borderWidth={"5px"}
+          borderColor={beastColorHex}        
           bgClip="padding-box"
-          */
-          outline={beastColorHex + " solid 5px"}
-
         >
-          <Flex borderColor="white" borderTopRightRadius={25} borderBottomRightRadius={25} bg={beastColorHex} bgImage={beastColorGradient}>
+          <Flex borderColor="white" borderTopRightRadius={25} borderBottomRightRadius={25} borderTopLeftRadius={5} borderBottomLeftRadius={'5'} bg={beastColorHex} bgImage={beastColorGradient}>
             <Text paddingTop={2} paddingBottom={2} paddingLeft={3} paddingRight={5} color="white">{quantity + "x"}</Text>
           </Flex>
-          <Flex paddingTop={2} paddingBottom={2} paddingLeft={5} paddingRight={5} justifyContent={"center"} maxWidth={[200, 300]} width={[200, 300]}>
-            <Text paddingRight="25%">{getBeastNameFromTitle(token.title)}</Text>
+          <Flex paddingTop={2} paddingBottom={2} paddingLeft={5} paddingRight={5} maxWidth={[200, 300]} width={[200, 300]}>
+            <Text>{getBeastNameFromTitle(token.title)}</Text>
           </Flex>
         </HStack>
       </VStack>
