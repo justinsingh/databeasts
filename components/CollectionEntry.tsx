@@ -14,13 +14,26 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   }
 
   return (
-    <Box m={2} mb={4} paddingBottom={2} bgColor="rgba(255, 255, 255)" borderRadius={10} boxShadow={'md'}>
+    <Box m={2} mb={4} p={[5,10]} paddingBottom={2} bgColor="white" borderRadius={10} boxShadow={'md'} borderWidth={4} borderColor="#0055F4">
       <VStack>
         <Box position="relative">
-          <Circle fontSize={18} fontWeight="bold" position="absolute" top="-3" left="-3" size={["45px", "55px"]} bg="white" color="black" boxShadow={'md'}>
+          <Circle 
+            fontSize={18} 
+            fontWeight="bold" 
+            position="absolute" 
+            top="-3" 
+            left="-3" 
+            size={["55px", "65px"]} 
+            bg="#0055F4" 
+            color="white" 
+            boxShadow={["lg"]} 
+            borderWidth={3} 
+            borderColor="white"
+            outline={"#0055F4 solid 4px"}
+          >
             <Text>#{getBeastNumberFromTitle(token.title)}</Text>
           </Circle>
-          <Image borderTopRadius={10} width={[150, 300, 400]} height={[150, 300, 400]} src={entryImageSrc} />
+            <Image width={[150, 300, 400]} height={[150, 300, 400]} src={entryImageSrc} borderRadius={10} outline="#0055F4 solid 5px" />
         </Box>
         <HStack wordBreak={"break-word"} fontWeight="bold" paddingTop={2} paddingBottom={2}>
           <Text>{getBeastNameFromTitle(token.title)}</Text>
