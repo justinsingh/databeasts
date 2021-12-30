@@ -22,6 +22,5 @@ export const getBeastNumberFromTitle = (title: string) => {
   let colonIndex = title.indexOf(':');
    
   // Return the string that is between '#' and ':', which will contain the beast number.
-  console.log(title);
   return title.slice(11, colonIndex);
 }
