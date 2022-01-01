@@ -3,36 +3,23 @@ import { CollectionEntryProps } from './Collection'
 import { getBeastNameFromTitle, getBeastNumberFromTitle, getHashFromIpfsURI } from '../utils/stringOperations'
 import { isSafari } from "../utils/browserOperations";
 import { Flex, VStack, Image, Box, HStack, Text, Circle, calc, baseStyle } from "@chakra-ui/react";
-
-// Styling values for common beasts
-const blueHex = "#0043C1"
-const blueGradient = "linear-gradient(to bottom right, rgba(2,0,36,1) 0%, rgba(1,31,112,1) 0%, rgba(0,46,156,1) 0%, rgba(142,176,244,1) 0%, rgba(0,85,244,1) 50%, rgba(0,67,193,1) 100%)"
-
-// Styling values for rare beasts
-const purpleHex = "#8e00c1"
-const purpleGradient = "linear-gradient(to bottom right, rgba(215,187,224,1) 0%, rgba(142,0,193,1) 58%)"
-
-// Styling values for legendary beasts
-const orangeHex = "#c15a00"
-const orangeGradient = "linear-gradient(to bottom right, rgba(255,220,189,1) 0%, rgba(193,90,0,1) 58%)"
+import commonCard from '../public/collection_entry/card_frame_1_common.png';
+import rareCard from '../public/collection_entry/card_frame_1_rare.png';
+import legendaryCard from '../public/collection_entry/card_frame_1_legendary.png';
 
 const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   var entryImageSrc: string;
-  var beastColorHex: string;
-  var beastColorGradient: string;
-  var isSafariBrowser = isSafari();
-
+  var cardImageSrc: string;
+  //var isSafariBrowser = isSafari();
+  
   if (token.supply > 10 && token.id !== 572968) {
-    beastColorHex = blueHex;
-    beastColorGradient = blueGradient;
+    cardImageSrc = commonCard.src;
   }
   else if (token.supply > 5) {
-    beastColorHex = purpleHex;
-    beastColorGradient = purpleGradient;
+    cardImageSrc = rareCard.src;
   }
   else {
-    beastColorHex = orangeHex;
-    beastColorGradient = orangeGradient;
+    cardImageSrc = legendaryCard.src;
   }
   
   // Source the image from /public/beast_gifs. Use ipfs.io if not found.
@@ -41,7 +28,53 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   } catch (error: unknown) {
     entryImageSrc = "https://ipfs.io/ipfs/" + getHashFromIpfsURI(token.display_uri);
   }
+  
+  return (
+    <Box
+      position={"relative"}
+      width={[333, 455]}
+      height={[383, 522]}
+      transform={"translate3d(0, 0, 200px)"}
+    >
+      <Image width="100%" height="100%" src={cardImageSrc} />
+      <Box position="absolute" top='0' left='0' width="100%" height="100%" overflow="hidden">
+        <Text
+          display="flex"
+          as="a"
+          target="_blank"
+          _hover={{ textDecoration: "underline" }}
+          href={"https://objkt.com/asset/hicetnunc/" + token.id}
+          position="relative"
+          top={["3.25%"]}
+          left={["53%"]}
+          fontSize={[12, 17]}
+          fontWeight="bold"
+          color="silver"
+        >
+          OBJKT#{token.id}
+        </Text>
+        <Text position="relative" top={["3%", "3%"]} left={["7%", "7.5%"]} fontSize={[14, 19]} fontWeight="bold" color="white">
+          #{getBeastNumberFromTitle(token.title)}
+        </Text>
+        <Image position="relative" left={["7%"]} top={["-5.15%"]} zIndex={-1} width={[285, 400]} height={[285, 400]} src={entryImageSrc} />
+        <HStack
+          position="relative"
+          left={["11%"]}
+          top={["0%", "-3%"]}
+          spacing={"12%"}
+          wordBreak={"break-word"}
+          fontSize={[20, 32]}
+          fontWeight="bold"
+          color="white"
+        >
+          <Text>{quantity + "x"}</Text>
+          <Text>{getBeastNameFromTitle(token.title)}</Text>
+        </HStack>
+      </Box>
+    </Box>
+  )
 
+  /*
   return (
     <Box m={2} p={[5, 8]} bgColor="white" borderRadius={10} boxShadow={'md'} borderWidth={5} borderColor={beastColorHex}>
       <VStack spacing={7}>
@@ -87,6 +120,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
       </VStack>
     </Box>
   )
+  */
 }
 
 export default CollectionEntry;

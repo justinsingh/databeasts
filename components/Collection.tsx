@@ -97,7 +97,7 @@ const Collection = ({ address }: CollectionProps) => {
       {typeof collectionEntries !== 'undefined' && (
         <>
           <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
-          <Wrap marginTop={0} spacing={0} maxW={[332, 1000, 1500]}>
+          <Wrap marginTop={0} spacing={3} maxW={[332, 1389]}>
             {collectionEntries.map(entry => {
               return (
                 <WrapItem p={0} key={entry.token.id}>
