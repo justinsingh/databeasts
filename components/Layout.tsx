@@ -22,13 +22,16 @@ const Layout = ({ children }: LayoutProps) => {
       <Head>
         <title>DataBeasts</title>
         <meta name="description" content="Interact With Your DataBeasts" />
+        <meta name="viewport" content="initial-scale=1" />
         <link rel="icon" href={faviconImage.src} />
       </Head>
       <Center>
         <Box mt={[4, 0]} mb={5} maxW="850px">
+          <Center>
           <Link href="/">
-            <Image cursor="pointer" width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
+            <Image cursor="pointer" width="90%" height="90%" src={titleImage.src} alt="DataBeasts Title Image" />
           </Link>
+          </Center>
         </Box>
       </Center>
 
