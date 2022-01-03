@@ -29,7 +29,7 @@ const Layout = ({ children }: LayoutProps) => {
         <Box mt={[4, 0]} mb={5} maxW="850px">
           <Center>
           <Link href="/">
-            <Image cursor="pointer" width="90%" height="90%" src={titleImage.src} alt="DataBeasts Title Image" />
+            <Image cursor="pointer" width="80%" height="80%" src={titleImage.src} alt="DataBeasts Title Image" />
           </Link>
           </Center>
         </Box>
