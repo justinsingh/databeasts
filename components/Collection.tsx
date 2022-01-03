@@ -87,7 +87,9 @@ const Collection = ({ address }: CollectionProps) => {
       fetchCollection(address).then(entries => {
         setCollectionEntries(entries);
         setDistinctBeasts(entries.length);
-        setTotalBeasts(entries.reduce((a: CollectionEntryProps, b: CollectionEntryProps) => ({ quantity: a.quantity + b.quantity })).quantity);
+        setTotalBeasts(entries.length === 0 ? 0 :
+          entries.reduce((a: CollectionEntryProps, b: CollectionEntryProps) => ({ quantity: a.quantity + b.quantity })).quantity
+        );
       });
     }
   }, []);
