@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Wrap, WrapItem } from '@chakra-ui/react'
+import { Wrap, WrapItem, Grid, GridItem } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 
@@ -99,15 +99,15 @@ const Collection = ({ address }: CollectionProps) => {
       {typeof collectionEntries !== 'undefined' && (
         <>
           <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
-          <Wrap marginTop={0} spacing={3} maxW={[332, 1389]}>
+          <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)","repeat(3, 1fr)"]} /*marginTop={0} spacing={3} maxW={[332, 1389]}*/>
             {collectionEntries.map(entry => {
               return (
-                <WrapItem p={0} key={entry.token.id}>
+                <GridItem p={1.5} key={entry.token.id}>
                   <CollectionEntry quantity={entry.quantity} token={entry.token} />
-                </WrapItem>
+                </GridItem>
               )}
             )}
-          </Wrap>
+          </Grid>
         </>
       )}
     </>

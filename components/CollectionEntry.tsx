@@ -32,11 +32,11 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   return (
     <Box
       position={"relative"}
-      width={[333, 455]}
-      height={[383, 522]}
+      width={["100%", 455]}
+      height={["100%", 522]}
       transform={"translate3d(0, 0, 200px)"}
     >
-      <Image width="100%" height="100%" src={cardImageSrc} />
+      <Image width={["40vw", "100%"]} height={["auto", "522"]} src={cardImageSrc} />
       <Box position="absolute" top='0' left='0' width="100%" height="100%" overflow="hidden">
         <Text
           display="flex"
@@ -56,7 +56,54 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
         <Text position="relative" top={["3%", "3%"]} left={["7%", "7.5%"]} fontSize={[14, 19]} fontWeight="bold" color="white">
           #{getBeastNumberFromTitle(token.title)}
         </Text>
-        <Image position="relative" left={["7%"]} top={["-5.15%"]} zIndex={-1} width={[285, 400]} height={[285, 400]} src={entryImageSrc} />
+        <Image position="relative" left={[3, "7%"]} top={[-7, "-5.15%"]} zIndex={-1} width={[160, 400]} height={[160, 400]} src={entryImageSrc} />
+        <HStack
+          position="relative"
+          left={["11%"]}
+          top={["0%", "-3%"]}
+          spacing={"12%"}
+          wordBreak={"break-word"}
+          fontSize={[20, 32]}
+          fontWeight="bold"
+          color="white"
+        >
+          <Text>{quantity + "x"}</Text>
+          <Text>{getBeastNameFromTitle(token.title)}</Text>
+        </HStack>
+      </Box>
+
+    </Box>
+  )
+
+  /*
+  return (
+    <Box
+      position={"relative"}
+      width={["100%", 455]}
+      height={["100%", 522]}
+      transform={"translate3d(0, 0, 200px)"}
+    >
+      <Image width={["40vw", "100%"]} height="auto" src={cardImageSrc} />
+      <Box position="absolute" top='0' left='0' width="100%" height="100%" overflow="hidden">
+        <Text
+          display="flex"
+          as="a"
+          target="_blank"
+          _hover={{ textDecoration: "underline" }}
+          href={"https://objkt.com/asset/hicetnunc/" + token.id}
+          position="relative"
+          top={["3.25%"]}
+          left={["53%"]}
+          fontSize={[12, 17]}
+          fontWeight="bold"
+          color="silver"
+        >
+          OBJKT#{token.id}
+        </Text>
+        <Text position="relative" top={["3%", "3%"]} left={["7%", "7.5%"]} fontSize={[14, 19]} fontWeight="bold" color="white">
+          #{getBeastNumberFromTitle(token.title)}
+        </Text>
+        <Image position="relative" left={[3, "7%"]} top={[-7, "-5.15%"]} zIndex={-1} width={[160, 400]} height={[160, 400]} src={entryImageSrc} />
         <HStack
           position="relative"
           left={["11%"]}
@@ -73,6 +120,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
       </Box>
     </Box>
   )
+  */
 
   /*
   return (
