@@ -17,8 +17,8 @@ const Layout = ({ children }: LayoutProps) => {
   const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
 
   return (
-    <Container overflow="hidden" maxW="100%" minH="100%" p={0} m={0}>
-      <Box zIndex={-1} position="fixed" width="100%" height="100%" bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="no-repeat"></Box>
+    <Container overflow="hidden" maxW="100%" minH="100vh" p={0} m={0}>
+      <Box zIndex={-1} position={["absolute", "fixed"]} width="100%" height="100%" bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="no-repeat"></Box>
       <Head>
         <title>DataBeasts</title>
         <meta name="description" content="Interact With Your DataBeasts" />
