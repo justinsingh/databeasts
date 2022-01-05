@@ -30,11 +30,14 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   }
   
   return (
+
     <Box
       position={"relative"}
       width={["100%", 455]}
       height={["100%", 522]}
       transform={"translate3d(0, 0, 200px)"}
+      _hover={{ transform: 'scale(1.01)' }} 
+      transition="all ease-in 75ms"
     >
       <Image width={["160px", "100%"]} height={["auto", "522"]} src={cardImageSrc} />
       <Box position="absolute" top='0' left='0' width="100%" height="100%" overflow="hidden">
