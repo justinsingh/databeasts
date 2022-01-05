@@ -39,29 +39,37 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
       <Image width={["160px", "100%"]} height={["auto", "522"]} src={cardImageSrc} />
       <Box position="absolute" top='0' left='0' width="100%" height="100%" overflow="hidden">
         <Text
+          width={["36%", "33%"]}
           display="flex"
-          as="a"
-          target="_blank"
-          _hover={{ textDecoration: "underline" }}
-          href={"https://objkt.com/asset/hicetnunc/" + token.id}
           position="relative"
           top={["2.75%", "3.25%"]}
           left={["49%", "53%"]}
           fontSize={[7, 17]}
           fontWeight="bold"
           color="silver"
+          zIndex={3}
         >
           OBJKT#{token.id}
         </Text>
-        <Text position="relative" top={["1.75%", "3%"]} left={["7%", "7.5%"]} fontSize={[8, 19]} fontWeight="bold" color="white">
+        <Text width={["11%"]} pointerEvent="none" position="relative" top={["1.75%", "3%"]} left={["7%", "7.5%"]} fontSize={[8, 19]} fontWeight="bold" color="white">
           #{getBeastNumberFromTitle(token.title)}
         </Text>
+        <Box as="a"
+          target="_blank"
+          href={"https://objkt.com/asset/hicetnunc/" + token.id}
+          position="fixed"
+          left={["7%"]}
+          top={["5%"]}
+          width={[140, 400]}
+          height={[140, 400]}
+        />
         <Image position="relative" left={["6.5%", "7%"]} top={[-3, "-5.15%"]} zIndex={-1} width={[140, 400]} height={[140, 400]} src={entryImageSrc} />
         <HStack
+          width={["85%"]}
           position="relative"
           left={["11%"]}
           top={["-4.55%", "-3%"]}
-          spacing={"12%"}
+          spacing={["13%", "14%"]}
           wordBreak={"break-word"}
           fontSize={[12, 32]}
           fontWeight="bold"
