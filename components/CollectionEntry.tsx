@@ -1,30 +1,29 @@
 import React from "react";
 import { CollectionEntryProps } from './Collection'
 import { getBeastNameFromTitle, getBeastNumberFromTitle, getHashFromIpfsURI } from '../utils/stringOperations'
-import { isSafari } from "../utils/browserOperations";
-import { Flex, VStack, Image, Box, HStack, Text, Circle, calc, baseStyle } from "@chakra-ui/react";
-import commonCard from '../public/collection_entry/card_frame_1_common.png';
-import rareCard from '../public/collection_entry/card_frame_1_rare.png';
-import legendaryCard from '../public/collection_entry/card_frame_1_legendary.png';
+import { Image, Box, HStack, Text } from "@chakra-ui/react";
+import { useMediaQuery } from "@chakra-ui/react"
 
 const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   var entryImageSrc: string;
   var cardImageSrc: string;
-  //var isSafariBrowser = isSafari();
+  const [isMobile] = useMediaQuery("(max-width: 30em)")
   
+  // Use the card image which corresponds to the beast's rarity
   if (token.supply > 10 && token.id !== 572968) {
-    cardImageSrc = commonCard.src;
+    cardImageSrc = require('../public/collection_entry/card_frame_1_common.png').default.src;
   }
   else if (token.supply > 5) {
-    cardImageSrc = rareCard.src;
+    cardImageSrc = require('../public/collection_entry/card_frame_1_rare.png').default.src;
   }
   else {
-    cardImageSrc = legendaryCard.src;
+    cardImageSrc = require('../public/collection_entry/card_frame_1_legendary.png').default.src;
   }
   
-  // Source the image from /public/beast_gifs. Use ipfs.io if not found.
+  // Source the beast gif from mobile or standard beast_gifs folder. Use ipfs.io if not found.
   try {
-    entryImageSrc = require('../public/beast_gifs/' + token.id + '.gif').default.src;
+    entryImageSrc = isMobile ? require('../public/mobile_beast_gifs/' + token.id + '.gif').default.src 
+      : require('../public/beast_gifs/' + token.id + '.gif').default.src;
   } catch (error: unknown) {
     entryImageSrc = "https://ipfs.io/ipfs/" + getHashFromIpfsURI(token.display_uri);
   }
@@ -54,7 +53,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
         >
           OBJKT#{token.id}
         </Text>
-        <Text width={["11%"]} pointerEvent="none" position="relative" top={["1.75%", "3%"]} left={["7%", "7.5%"]} fontSize={[8, 19]} fontWeight="bold" color="white">
+        <Text width={["11%"]} position="relative" top={["1.75%", "3%"]} left={["7%", "7.5%"]} fontSize={[8, 19]} fontWeight="bold" color="white">
           #{getBeastNumberFromTitle(token.title)}
         </Text>
         <Box as="a"
