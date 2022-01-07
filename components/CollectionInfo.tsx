@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Flex, Box, Text, VStack, HStack, Tooltip, useDisclosure, Collapse } from '@chakra-ui/react'
+import { Box, Text, VStack, HStack, Tooltip, Collapse, useToast } from '@chakra-ui/react'
 import { shortenAddress } from '../utils/stringOperations'
 import { useMediaQuery } from "@chakra-ui/react"
 
@@ -10,9 +10,15 @@ type CollectionInfoProps = {
 }
 
 const CollectionInfo = ({ address, totalBeasts, distinctBeasts }: CollectionInfoProps) => {
-  const [isMobile] = useMediaQuery("(max-width: 30em)")
   const [showQuantityInfo, setShowQuantityInfo] = useState<boolean>(false);
   const toggleShowQuantityInfo = () => setShowQuantityInfo(!showQuantityInfo);
+  const [isMobile] = useMediaQuery("(max-width: 30em)")
+  const copyURLToast = useToast({
+    variant: "left-accent",
+    position: "top-left",
+    title: 'Collection URL Copied!',
+    duration: 2000,
+  });
 
   return (
     <Tooltip hasArrow label="Click To Copy Collection URL" placement="top" openDelay={175} >
@@ -26,7 +32,10 @@ const CollectionInfo = ({ address, totalBeasts, distinctBeasts }: CollectionInfo
         borderRadius={10}
         boxShadow={'md'}
         cursor="pointer"
-        onClick={() => navigator.clipboard.writeText(window.origin + "/collection/" + address)}
+        onClick={() => {
+          navigator.clipboard.writeText(window.origin + "/collection/" + address);
+          copyURLToast();
+        }}
         onMouseEnter={toggleShowQuantityInfo}
         onMouseLeave={toggleShowQuantityInfo}
       >
