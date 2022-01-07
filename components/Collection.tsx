@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Wrap, WrapItem, Grid, GridItem } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
+import ScrollTopArrow from "../components/ScrollTopArrow"
 
 type CollectionProps = {
   /*
@@ -98,6 +99,7 @@ const Collection = ({ address }: CollectionProps) => {
     <>
       {typeof collectionEntries !== 'undefined' && (
         <>
+          <ScrollTopArrow />
           <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
           <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)","repeat(3, 1fr)"]} /*marginTop={0} spacing={3} maxW={[332, 1389]}*/>
             {collectionEntries.map(entry => {
