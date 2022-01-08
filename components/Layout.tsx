@@ -17,18 +17,21 @@ const Layout = ({ children }: LayoutProps) => {
   const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
 
   return (
-    <Container overflow="hidden" maxW="100%" minH="100%" p={0} m={0}>
-      <Box zIndex={-1} position="fixed" width="100%" height="100%" bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="no-repeat"></Box>
+    <Container overflow="hidden" maxW="100vw" minH="100vh" p={0} m={0}>
+      <Box zIndex={-1} position={["fixed", "fixed"]} width="100vw" height={["100vh", "100vh"]} bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="repeat"></Box>
       <Head>
         <title>DataBeasts</title>
         <meta name="description" content="Interact With Your DataBeasts" />
+        <meta name="viewport" content="initial-scale=1" />
         <link rel="icon" href={faviconImage.src} />
       </Head>
       <Center>
-        <Box mt={[4, 0]} mb={5} maxW="850px">
+        <Box mt={[4, 0]} mb={5} maxW={["85vw", "45vw"]}>
+          <Center>
           <Link href="/">
-            <Image cursor="pointer" width={[300, 600, 850]} height={[150, 300, 425]} src={titleImage.src} alt="DataBeasts Title Image" />
+            <Image cursor="pointer" width="100%" height="100%" src={titleImage.src} alt="DataBeasts Title Image" />
           </Link>
+          </Center>
         </Box>
       </Center>
 

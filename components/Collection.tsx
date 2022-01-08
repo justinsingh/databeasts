@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Wrap, WrapItem } from '@chakra-ui/react'
+import { Box, Grid, GridItem, Spinner } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
+import ScrollTopArrow from "../components/ScrollTopArrow"
 
 type CollectionProps = {
   /*
@@ -23,6 +24,7 @@ type Token = {
   thumbnail_uri: string
   title: string
   description: string
+  supply: number
 }
 
 export type CollectionEntryProps = {
@@ -78,6 +80,44 @@ const Collection = ({ address }: CollectionProps) => {
   const [collectionEntries, setCollectionEntries] = useState<CollectionEntryProps[]>()
   const [totalBeasts, setTotalBeasts] = useState<number>(0);
   const [distinctBeasts, setDistinctBeasts] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const LoadingCollection = () => {
+    return (
+      <Box position="absolute" top={["50%"]}>
+        <Spinner
+          thickness="8px"
+          speed='0.55s'
+          emptyColor='white'
+          color='blue.500'
+          size='xl'
+        />
+      </Box>
+    )
+  }
+
+  const CollectionItems = () => {
+    return (
+      <>
+        {typeof collectionEntries !== 'undefined' && (
+          <>
+            <ScrollTopArrow />
+            <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]} /*marginTop={0} spacing={3} maxW={[332, 1389]}*/>
+              {collectionEntries.map(entry => {
+                return (
+                  <GridItem p={1.5} key={entry.token.id}>
+                    <CollectionEntry quantity={entry.quantity} token={entry.token} />
+                  </GridItem>
+                )
+              }
+              )}
+            </Grid>
+          </>
+        )}
+      </>
+    )
+  }
 
   useEffect(() => {
     // Fetch collection data if address is a string (need to check due to CollectionProps type, see for more info)
@@ -86,28 +126,17 @@ const Collection = ({ address }: CollectionProps) => {
       fetchCollection(address).then(entries => {
         setCollectionEntries(entries);
         setDistinctBeasts(entries.length);
-        setTotalBeasts(entries.reduce((a: CollectionEntryProps, b: CollectionEntryProps) => ({ quantity: a.quantity + b.quantity })).quantity);
+        setTotalBeasts(entries.length === 0 ? 0 :
+          entries.reduce((a: CollectionEntryProps, b: CollectionEntryProps) => ({ quantity: a.quantity + b.quantity })).quantity
+        );
+        setIsLoading(false);
       });
     }
   }, []);
 
+
   return (
-    <>
-      {typeof collectionEntries !== 'undefined' && (
-        <>
-          <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
-          <Wrap marginTop={0} spacing={0} maxW={[332, 832, 1248]}>
-            {collectionEntries.map(entry => {
-              return (
-                <WrapItem p={0} key={entry.token.id}>
-                  <CollectionEntry quantity={entry.quantity} token={entry.token} />
-                </WrapItem>
-              )}
-            )}
-          </Wrap>
-        </>
-      )}
-    </>
+    isLoading ? LoadingCollection() : CollectionItems()
   )
 }
 
