@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { TezosToolkit } from "@taquito/taquito"
 import { BeaconWallet } from "@taquito/beacon-wallet";
 import { Network, NetworkType } from "@airgap/beacon-sdk";
+import { TaquitoTezosDomainsClient } from '@tezos-domains/taquito-client'
+import { Tzip16Module } from '@taquito/tzip16'
 
 // Type for Provider Component props
 type ProviderProps = {
@@ -13,6 +15,8 @@ type DataBeastsContextType = {
   userAddress: string | undefined
   syncWallet: () => void
   desyncWallet: () => void
+  TezosDomains: TaquitoTezosDomainsClient
+  Tezos: TezosToolkit
 };
 
 // Create context
@@ -29,8 +33,16 @@ export const useDataBeastsContext = () => {
   return dataBeastsContext as DataBeastsContextType;
 }
 
-const Tezos = new TezosToolkit("https://mainnet-tezos.giganode.io");
+const Tezos = new TezosToolkit("https://mainnet.smartpy.io");
 var wallet: BeaconWallet
+
+// Add extension and create client for Tezos Domains
+Tezos.addExtension(new Tzip16Module());
+const TezosDomains = new TaquitoTezosDomainsClient({
+  tezos: Tezos,
+  network: 'mainnet',
+  caching: { enabled: true }
+});
 
 export const DataBeastsProvider = ({ children }: ProviderProps) => {
   const [userAddress, setUserAddress] = useState<string | undefined>(undefined);
@@ -84,7 +96,7 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
   }
 
   return (
-    <DataBeastsContext.Provider value={{ userAddress, syncWallet, desyncWallet }} >
+    <DataBeastsContext.Provider value={{ userAddress, syncWallet, desyncWallet, TezosDomains, Tezos }} >
       {children}
     </DataBeastsContext.Provider>
   )
