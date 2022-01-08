@@ -24,3 +24,7 @@ export const getBeastNumberFromTitle = (title: string) => {
   // Return the string that is between '#' and ':', which will contain the beast number.
   return title.slice(11, colonIndex);
 }
+
+export const isTezosDomainName = (address: string) => {
+  return (address.indexOf(".tez") === -1 ? false : true);
+}
