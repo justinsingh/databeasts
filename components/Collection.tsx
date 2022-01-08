@@ -3,6 +3,9 @@ import { Box, Grid, GridItem, Spinner } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 import ScrollTopArrow from "../components/ScrollTopArrow"
+import { isTezosDomainName } from "../utils/stringOperations";
+import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezosDomainOperations";
+import { useDataBeastsContext } from '../context/DataBeastsContext'
 
 type CollectionProps = {
   /*
@@ -81,6 +84,9 @@ const Collection = ({ address }: CollectionProps) => {
   const [totalBeasts, setTotalBeasts] = useState<number>(0);
   const [distinctBeasts, setDistinctBeasts] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tezosAddress, setTezosAddress] = useState<string>(address as string);
+  const [tezosDomainName, setTezosDomainName] = useState<string>(address as string);
+  const { Tezos } = useDataBeastsContext();
 
   const LoadingCollection = () => {
     return (
@@ -102,7 +108,7 @@ const Collection = ({ address }: CollectionProps) => {
         {typeof collectionEntries !== 'undefined' && (
           <>
             <ScrollTopArrow />
-            <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
+            <CollectionInfo address={tezosDomainName} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
             <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]} /*marginTop={0} spacing={3} maxW={[332, 1389]}*/>
               {collectionEntries.map(entry => {
                 return (
@@ -119,8 +125,11 @@ const Collection = ({ address }: CollectionProps) => {
     )
   }
 
-  useEffect(() => {
-    // Fetch collection data if address is a string (need to check due to CollectionProps type, see for more info)
+  const initializeCollection = (address: string) => {
+    /*
+    Fetch collection data if address is a string.
+    Could be null if address was a nonexistent Tezos domain
+    */
     if (typeof address === 'string') {
       // Set collectionEntries if fetchCollection() returns entries
       fetchCollection(address).then(entries => {
@@ -131,6 +140,34 @@ const Collection = ({ address }: CollectionProps) => {
         );
         setIsLoading(false);
       });
+    }
+  }
+
+  useEffect(() => {
+    // If address is in Tezos Domain Name format (ends in .tez)
+    if (isTezosDomainName(address as string)) {
+      // Set tezosDomainName to address
+      setTezosDomainName(address as string);
+
+      // Set tezosAddress to address linked in Tezos Domain record (null if not found)
+      //getTezosAddressFromName(TezosDomains, address as string).then(res => { setTezosAddress(res)});
+      getTezosAddressFromName(Tezos, address as string).then(res => {
+        setTezosAddress(res);
+        initializeCollection(typeof res === 'string' ? res : "");
+      })
+    }
+    // If address is Tezos address
+    else {
+      // Set tezosAddress to address
+      setTezosAddress(address as string);
+
+      //Render collection
+      initializeCollection(address as string);
+
+      // Set tezosDomainName to Tezos Domain (address if not found)
+      getTezosNameFromAddress(Tezos, address as string).then(res => {
+        setTezosDomainName(res);
+      })
     }
   }, []);
 
