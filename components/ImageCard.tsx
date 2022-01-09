@@ -21,7 +21,7 @@ const ImageCard = React.forwardRef(({ imageSrc, imageAlt, caption, href, isSyncA
   const OuterBox = ({ children, isSyncAlert=false }: OuterBoxProps) => {
     return (
       <Box 
-        onClick={isSyncAlert ? () => alert("Please sync your Tezos wallet") : undefined} 
+        onClick={isSyncAlert ? () => alert("Please sync your Tezos wallet to view your beast collection.") : undefined} 
         cursor="pointer"
         _hover={{ transform: 'scale(1.07)' }} 
         transition="all ease-in 75ms"
