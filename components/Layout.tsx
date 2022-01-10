@@ -16,7 +16,6 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
-  console.log(window.location.href);
 
   return (
     <Container overflow="hidden" maxW="100vw" minH="100vh" p={0} m={0}>
