@@ -21,25 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <Container overflow="hidden" maxW="100vw" minH="100vh" p={0} m={0}>
       <Box zIndex={-1} position={["fixed", "fixed"]} width="100vw" height={["100vh", "100vh"]} bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="repeat"></Box>
-      <Head>
-        <title>DataBeasts</title>
-        <meta name="title" content="DataBeasts" />
-        <meta name="description" content="View and share your DataBeasts collection." />
-        <meta name="viewport" content="initial-scale=1" />
-        <link rel="icon" href={faviconImage.src} />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.databeasts.xyz/" />
-        <meta property="og:title" content="DataBeasts" />
-        <meta property="og:description" content="View and share your DataBeasts collection." />
-        <meta property="og:image" content={metaTitleImage.src} />
-
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.databeasts.xyz/" />
-        <meta property="twitter:title" content="DataBeasts" />
-        <meta property="twitter:description" content="View and share your DataBeasts collection." />
-        <meta property="twitter:image" content={metaTitleImage.src} />
-      </Head>
+      
       <Center>
         <Box mt={[4, 0]} mb={5} maxW={["85vw", "45vw"]}>
           <Center>
