@@ -2,12 +2,13 @@ import React from 'react';
 import Head from 'next/head'
 import Link from 'next/link'
 import faviconImage from '../public/databeasts_favicon.png'
-import { Container, Box, Image, HStack, Center } from '@chakra-ui/react'
+import { Container, Box, Image, Center } from '@chakra-ui/react'
 import backgroundImage from '../public/webbackground-2.png'
 import syncButtonImage from '../public/sync_button.png'
 import unsyncButtonImage from '../public/unsync_button.png'
 import { useDataBeastsContext } from '../context/DataBeastsContext'
-import titleImage from '/public/databeasts_website_gif.gif'
+import titleImage from '../public/databeasts_website_gif.gif'
+import metaTitleImage from '../public/databeasts_title_meta_image.png'
 
 type LayoutProps = {
   children: React.ReactNode
@@ -21,16 +22,29 @@ const Layout = ({ children }: LayoutProps) => {
       <Box zIndex={-1} position={["fixed", "fixed"]} width="100vw" height={["100vh", "100vh"]} bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="repeat"></Box>
       <Head>
         <title>DataBeasts</title>
-        <meta name="description" content="Interact With Your DataBeasts" />
+        <meta name="title" content="DataBeasts" />
+        <meta name="description" content="View and share your DataBeasts collection." />
         <meta name="viewport" content="initial-scale=1" />
         <link rel="icon" href={faviconImage.src} />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.databeasts.xyz/" />
+        <meta property="og:title" content="DataBeasts" />
+        <meta property="og:description" content="View and share your DataBeasts collection." />
+        <meta property="og:image" content={metaTitleImage.src} />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://www.databeasts.xyz/" />
+        <meta property="twitter:title" content="DataBeasts" />
+        <meta property="twitter:description" content="View and share your DataBeasts collection." />
+        <meta property="twitter:image" content={metaTitleImage.src} />
       </Head>
       <Center>
         <Box mt={[4, 0]} mb={5} maxW={["85vw", "45vw"]}>
           <Center>
-          <Link href="/">
-            <Image cursor="pointer" width="100%" height="100%" src={titleImage.src} alt="DataBeasts Title Image" />
-          </Link>
+            <Link href="/">
+              <Image cursor="pointer" width="100%" height="100%" src={titleImage.src} alt="DataBeasts Title Image" />
+            </Link>
           </Center>
         </Box>
       </Center>
