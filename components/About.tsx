@@ -15,7 +15,7 @@ const About = () => {
         and <Text as="a" _hover={{textDecoration: "underline"}} color={aTagColor} target="_blank" href="https://discord.gg/Rn7YQqPhsm">Discord</Text>.
         <br />
         <br />
-        DataBeasts by Nam Mac Nguyen
+        DataBeasts by <Text as="a" _hover={{textDecoration: "underline"}} color={aTagColor} target="_blank" href="https://twitter.com/nam_mac">Nam Mac</Text>
         <br />
         Website by <Text as="a" _hover={{textDecoration: "underline"}} color={aTagColor} target="_blank" href="https://twitter.com/ByJustinSingh">Justin Singh</Text>
       </Text>
