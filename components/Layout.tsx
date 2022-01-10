@@ -16,6 +16,7 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   const { userAddress, syncWallet, desyncWallet } = useDataBeastsContext();
+  console.log(window.location.href);
 
   return (
     <Container overflow="hidden" maxW="100vw" minH="100vh" p={0} m={0}>
@@ -28,13 +29,13 @@ const Layout = ({ children }: LayoutProps) => {
         <link rel="icon" href={faviconImage.src} />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.databeasts.xyz/" />
+        <meta property="og:url" content="https://databeasts-git-main-justinsingh.vercel.app" />
         <meta property="og:title" content="DataBeasts" />
         <meta property="og:description" content="View and share your DataBeasts collection." />
         <meta property="og:image" content={metaTitleImage.src} />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.databeasts.xyz/" />
+        <meta property="twitter:url" content="https://databeasts-git-main-justinsingh.vercel.app" />
         <meta property="twitter:title" content="DataBeasts" />
         <meta property="twitter:description" content="View and share your DataBeasts collection." />
         <meta property="twitter:image" content={metaTitleImage.src} />
