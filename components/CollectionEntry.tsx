@@ -55,7 +55,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
           OBJKT#{token.id}
         </Text>
         <Text width={["11%"]} position="relative" top={["1.75%", "3%"]} left={["7%", "7.5%"]} fontSize={[8, 19]} fontWeight="bold" color="white">
-          #{getBeastNumberFromTitle(token.title)}
+          #{token.id === 540845 ? "29" : getBeastNumberFromTitle(token.title)}
         </Text>
         <Box as="a"
           target="_blank"
