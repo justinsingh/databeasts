@@ -70,6 +70,10 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
     if (activeAccount !== undefined) {
       let address = await wallet.getPKH();
       setUserAddress(address);
+
+      // Set Tezos Domain to result saved in storage from initial syncWallet()
+      if (localStorage.getItem('tezosDomain'))
+        setUserTezosDomain(localStorage.getItem('tezosDomain') as string);
     }
   }
 
@@ -82,11 +86,12 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
       console.log("Requesting wallet connection");
       await wallet.requestPermissions({ network });
       let address = await wallet.getPKH();
-      setUserAddress(address); 
+      setUserAddress(address);
       console.log("New connection: ", address);
 
-      // Set Tezos Domain for user address if it exists
+      // Set Tezos Domain for user address 
       fetchReverseRecord({ address }).then(reverseRecord => {
+        console.log("hit2");
         let items = reverseRecord.items;
 
         // Set domain name. Use undefined if not present
@@ -94,6 +99,10 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
 
         // Set tezosDomainName to domainName
         setUserTezosDomain(domainName);
+
+        // Save to local storage to prevent fetching again upon rerenders of provider
+        if (typeof domainName !== 'undefined')
+          localStorage.setItem('tezosDomain', domainName);
       })
     }
   }
@@ -103,6 +112,7 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
     console.log("Wallet disconnected");
     setUserAddress(undefined);
     setUserTezosDomain(undefined);
+    localStorage.removeItem('tezosDomain');
   }
 
   const destroyClient = async () => {
