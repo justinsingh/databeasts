@@ -82,7 +82,6 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
 
       // Set Tezos Domain for user address 
       fetchReverseRecord({ address }).then(reverseRecord => {
-        console.log("hit2");
         let items = reverseRecord.items;
 
         // Set domain name. Use undefined if not present

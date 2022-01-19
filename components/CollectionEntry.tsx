@@ -3,6 +3,7 @@ import { CollectionEntryProps } from './Collection'
 import { getBeastNameFromTitle, getBeastNumberFromTitle, getHashFromIpfsURI } from '../utils/stringOperations'
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react"
+import { common10EditionBeasts } from "../constants/beastData";
 
 const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   var entryImageSrc: string;
@@ -10,7 +11,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   const [isMobile] = useMediaQuery("(max-width: 30em)")
   
   // Use the card image which corresponds to the beast's rarity
-  if (token.supply > 10 && token.id !== 572968) {
+  if ((token.supply > 10 && token.id !== 572968) || (common10EditionBeasts.includes(token.id))) {
     cardImageSrc = require('../public/collection_entry/card_frame_1_common.png').default.src;
   }
   else if (token.supply > 5) {
@@ -54,7 +55,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
           OBJKT#{token.id}
         </Text>
         <Text width={["11%"]} position="relative" top={["1.75%", "3%"]} left={["7%", "7.5%"]} fontSize={[8, 19]} fontWeight="bold" color="white">
-          #{getBeastNumberFromTitle(token.title)}
+          #{token.id === 540845 ? "29" : getBeastNumberFromTitle(token.title)}
         </Text>
         <Box as="a"
           target="_blank"
