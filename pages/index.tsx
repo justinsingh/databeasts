@@ -10,7 +10,7 @@ import viewImage from '../public/view.gif'
 import { Center, Stack, Wrap, WrapItem} from '@chakra-ui/react'
 
 const Home: NextPage = () => {
-  const { userAddress } = useDataBeastsContext();
+  const { userAddress, userTezosDomain } = useDataBeastsContext();
 
   return (
     <Center>
@@ -26,7 +26,7 @@ const Home: NextPage = () => {
             {typeof userAddress === 'undefined' ?
               <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" isSyncAlert />
               :
-              <Link href={"/collection/" + userAddress} passHref>
+              <Link href={"/collection/" + (typeof userTezosDomain === 'undefined' ? userAddress : userTezosDomain)} passHref>
                 <ImageCard imageSrc={viewImage.src} imageAlt="View Your DataBeasts" caption="View" />
               </Link>
             }
