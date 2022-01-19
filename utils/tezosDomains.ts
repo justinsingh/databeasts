@@ -1,7 +1,7 @@
 //import { TaquitoTezosDomainsClient } from "@tezos-domains/taquito-client"
 import { TezosToolkit } from "@taquito/taquito";
 import { bytes2Char, char2Bytes } from "@taquito/utils";
-import { fetchGraphQL } from "./graphQL";
+import { fetchGraphQL } from "./graphql";
 
 const tezosDomainRegistryContract = "KT1GBZmSxmnKJXGMdMLbugPfLyUPmuLSMwKS";
 

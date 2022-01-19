@@ -1,4 +1,4 @@
-import { fetchGraphQL } from "./graphQL";
+import { fetchGraphQL } from "./graphql"
 
 type BeastCollectionQueryVariables = {
   address: string
