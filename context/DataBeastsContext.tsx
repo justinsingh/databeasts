@@ -17,7 +17,6 @@ type DataBeastsContextType = {
   userTezosDomain: string | undefined,
   syncWallet: () => void
   desyncWallet: () => void
-  TezosDomains: TaquitoTezosDomainsClient
   Tezos: TezosToolkit
 };
 
@@ -37,14 +36,6 @@ export const useDataBeastsContext = () => {
 
 const Tezos = new TezosToolkit("https://mainnet.smartpy.io");
 var wallet: BeaconWallet
-
-// Add extension and create client for Tezos Domains
-Tezos.addExtension(new Tzip16Module());
-const TezosDomains = new TaquitoTezosDomainsClient({
-  tezos: Tezos,
-  network: 'mainnet',
-  caching: { enabled: true }
-});
 
 export const DataBeastsProvider = ({ children }: ProviderProps) => {
   const [userAddress, setUserAddress] = useState<string | undefined>(undefined);
@@ -97,7 +88,7 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
         // Set domain name. Use undefined if not present
         let domainName = items.length > 0 ? items[0].domain.name : undefined;
 
-        // Set tezosDomainName to domainName
+        // Set userTezosDomainName to domainName
         setUserTezosDomain(domainName);
 
         // Save to local storage to prevent fetching again upon rerenders of provider
@@ -121,7 +112,7 @@ export const DataBeastsProvider = ({ children }: ProviderProps) => {
   }
 
   return (
-    <DataBeastsContext.Provider value={{ userAddress, userTezosDomain, syncWallet, desyncWallet, TezosDomains, Tezos }} >
+    <DataBeastsContext.Provider value={{ userAddress, userTezosDomain, syncWallet, desyncWallet, Tezos }} >
       {children}
     </DataBeastsContext.Provider>
   )
