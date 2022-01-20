@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import { Box, Text, VStack, HStack, Tooltip, Collapse, useToast } from '@chakra-ui/react'
 import { shortenAddress } from '../utils/stringOperations'
 import { useMediaQuery } from "@chakra-ui/react"
+import { isTezosDomainName } from "../utils/stringOperations";
 
 type CollectionInfoProps = {
   address: string,
+  domainName: string | undefined,
   totalBeasts: number,
   distinctBeasts: number
 }
 
-const CollectionInfo = ({ address, totalBeasts, distinctBeasts }: CollectionInfoProps) => {
+const CollectionInfo = ({ address, domainName, totalBeasts, distinctBeasts }: CollectionInfoProps) => {
   const [showQuantityInfo, setShowQuantityInfo] = useState<boolean>(false);
   const toggleShowQuantityInfo = () => setShowQuantityInfo(!showQuantityInfo);
   const [isMobile] = useMediaQuery("(max-width: 30em)")
@@ -33,7 +35,7 @@ const CollectionInfo = ({ address, totalBeasts, distinctBeasts }: CollectionInfo
         boxShadow={'md'}
         cursor="pointer"
         onClick={() => {
-          navigator.clipboard.writeText(window.origin + "/collection/" + address);
+          navigator.clipboard.writeText(window.origin + "/collection/" + (typeof domainName === 'undefined' ? address : domainName));
           copyURLToast();
         }}
         onMouseEnter={toggleShowQuantityInfo}
@@ -41,7 +43,9 @@ const CollectionInfo = ({ address, totalBeasts, distinctBeasts }: CollectionInfo
       >
         <VStack fontSize={["4vw", "1.3vw"]} wordBreak={"break-word"} fontWeight="bold" spacing={0} paddingTop={0} paddingBottom={0}>
           <HStack>
-            <Text /*fontSize={[16, 32]}*/>{shortenAddress(address)} Collection</Text>
+            <Text>
+              {typeof domainName === 'undefined' ? shortenAddress(address) : domainName} Collection
+            </Text>
             <svg xmlns="http://www.w3.org/2000/svg" height={isMobile ? "12" : "18"} viewBox="0 0 24 24" width={isMobile ? "12" : "18"}>
               <path d="M0 0h24v24H0z" fill="none" /><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
             </svg>

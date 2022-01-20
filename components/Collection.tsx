@@ -3,6 +3,11 @@ import { Box, Grid, GridItem, Spinner } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 import ScrollTopArrow from "../components/ScrollTopArrow"
+import { isTezosDomainName } from "../utils/stringOperations";
+import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezosDomains";
+import { useDataBeastsContext } from '../context/DataBeastsContext'
+import { fetchCollection } from '../utils/hicdex'
+import { fetchDomainRecord, fetchReverseRecord } from '../utils/tezosDomains'
 
 type CollectionProps = {
   /*
@@ -13,8 +18,9 @@ type CollectionProps = {
   address: string | string[] | undefined
 }
 
-type CollectionQueryVariables = {
-  address: string
+export type CollectionEntryProps = {
+  quantity: number
+  token: Token
 }
 
 type Token = {
@@ -27,60 +33,14 @@ type Token = {
   supply: number
 }
 
-export type CollectionEntryProps = {
-  quantity: number
-  token: Token
-}
-
-const query = `
-query collectorGallery($address: String!) {
-  hic_et_nunc_token_holder(where: {holder_id: {_eq: $address}, token: {supply: {_gt: "0"}, creator_id: {_eq: "tz1e2DSjooZBbya7QwJsQUR5Z59dHpcEb97z"}}, quantity: {_gt: "0"}}, order_by: {token_id: desc}) {
-    quantity
-    token {
-      id
-      artifact_uri
-      display_uri
-      thumbnail_uri
-      timestamp
-      mime
-      title
-      description
-      supply
-    }
-  }
-}
-`;
-
-async function fetchGraphQL(operationsDoc: string, operationName: string, variables: CollectionQueryVariables) {
-  const result = await fetch(
-    "https://api.hicdex.com/v1/graphql",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        query: operationsDoc,
-        variables: variables,
-        operationName: operationName
-      })
-    }
-  );
-
-  return await result.json();
-}
-
-const fetchCollection = async (address: string) => {
-  const { errors, data } = await fetchGraphQL(query, 'collectorGallery', { address: address });
-  if (errors) {
-    console.error(errors);
-  }
-  const result = data.hic_et_nunc_token_holder
-  return result
-}
-
 const Collection = ({ address }: CollectionProps) => {
   const [collectionEntries, setCollectionEntries] = useState<CollectionEntryProps[]>()
   const [totalBeasts, setTotalBeasts] = useState<number>(0);
   const [distinctBeasts, setDistinctBeasts] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [tezosAddress, setTezosAddress] = useState<string>(address as string);
+  const [tezosDomainName, setTezosDomainName] = useState<string | undefined>(undefined);
+  const { Tezos } = useDataBeastsContext();
 
   const LoadingCollection = () => {
     return (
@@ -102,8 +62,13 @@ const Collection = ({ address }: CollectionProps) => {
         {typeof collectionEntries !== 'undefined' && (
           <>
             <ScrollTopArrow />
-            <CollectionInfo address={address as string} totalBeasts={totalBeasts} distinctBeasts={distinctBeasts} />
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]} /*marginTop={0} spacing={3} maxW={[332, 1389]}*/>
+            <CollectionInfo
+              address={tezosAddress}
+              domainName={tezosDomainName}
+              totalBeasts={totalBeasts}
+              distinctBeasts={distinctBeasts}
+            />
+            <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
               {collectionEntries.map(entry => {
                 return (
                   <GridItem p={1.5} key={entry.token.id}>
@@ -119,11 +84,14 @@ const Collection = ({ address }: CollectionProps) => {
     )
   }
 
-  useEffect(() => {
-    // Fetch collection data if address is a string (need to check due to CollectionProps type, see for more info)
+  const initializeCollection = (address: string) => {
+    /*
+    Fetch collection data if address is a string.
+    Could be null if address was a nonexistent Tezos domain
+    */
     if (typeof address === 'string') {
       // Set collectionEntries if fetchCollection() returns entries
-      fetchCollection(address).then(entries => {
+      fetchCollection({ address }).then(entries => {
         setCollectionEntries(entries);
         setDistinctBeasts(entries.length);
         setTotalBeasts(entries.length === 0 ? 0 :
@@ -131,6 +99,66 @@ const Collection = ({ address }: CollectionProps) => {
         );
         setIsLoading(false);
       });
+    }
+  }
+
+  useEffect(() => {
+    // If address is in Tezos Domain Name format (ends in .tez)
+    if (typeof address === 'string' && isTezosDomainName(address)) {
+      let domain: string = address;
+
+      // Set tezosDomainName to domain
+      setTezosDomainName(domain);
+
+      // Try Tezos Domains graphQL API. If error, read from contract storage directly
+      try {
+        fetchDomainRecord({ domain }).then(domainRecord => {
+          let items = domainRecord.items;
+
+          // Set reverse record address. Use empty string if not present.
+          let domainRecordAddress = items.length > 0 ? items[0].address : "";
+
+          // Set tezosAddress to domainName
+          setTezosAddress(domainRecordAddress)
+
+          // Initialize collection with the reverseRecordAddress
+          initializeCollection(domainRecordAddress);
+        })
+      } catch (error: unknown) {
+        // Set tezosAddress to address linked in Tezos Domain record (null if not found)
+        getTezosAddressFromName(Tezos, address as string).then(res => {
+          setTezosAddress(res);
+          initializeCollection(typeof res === 'string' ? res : "");
+        })
+      }
+    }
+    // If address is in Tezos address format (TODO: check for tezos address format criteria)
+    else if (typeof address === 'string') {
+      // Set tezosAddress to address
+      setTezosAddress(address as string);
+
+      
+      // Check if Tezos Domain exists for address
+      // Try Tezos Domains graphQL API. If error, read from contract storage directly
+      try {
+        fetchReverseRecord({ address }).then(reverseRecord => {
+          let items = reverseRecord.items;
+
+          // Set domain name. Use undefined if not present
+          let domainName = items.length > 0 ? items[0].domain.name : undefined;
+
+          // Set tezosDomainName to domainName
+          setTezosDomainName(domainName);
+        })
+      } catch (error: unknown) {
+        // Set tezosDomainName to Tezos Domain (address if not found)
+        getTezosNameFromAddress(Tezos, address as string).then(res => {
+          setTezosDomainName(res);
+        })
+      }
+
+      //Render collection
+      initializeCollection(address as string);
     }
   }, []);
 
