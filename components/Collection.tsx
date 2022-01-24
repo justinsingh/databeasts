@@ -25,9 +25,7 @@ export type CollectionEntryProps = {
 
 type Token = {
   id: number,
-  artifact_uri: string
   display_uri: string
-  thumbnail_uri: string
   title: string
   description: string
   supply: number

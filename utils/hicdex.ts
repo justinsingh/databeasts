@@ -11,14 +11,11 @@ query collectorGallery($address: String!) {
     quantity
     token {
       id
-      artifact_uri
       display_uri
-      thumbnail_uri
-      timestamp
-      mime
       title
       description
       supply
+      timestamp
     }
   }
 }
