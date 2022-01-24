@@ -85,10 +85,7 @@ const Collection = ({ address }: CollectionProps) => {
   }
 
   const initializeCollection = (address: string) => {
-    /*
-    Fetch collection data if address is a string.
-    Could be null if address was a nonexistent Tezos domain
-    */
+    // Fetch collection data if address is a string.
     if (typeof address === 'string') {
       // Set collectionEntries if fetchCollection() returns entries
       fetchCollection({ address }).then(entries => {
