@@ -29,6 +29,7 @@ type Token = {
   title: string
   description: string
   supply: number
+  timestamp: string
 }
 
 const Collection = ({ address }: CollectionProps) => {
@@ -94,6 +95,23 @@ const Collection = ({ address }: CollectionProps) => {
         );
         setIsLoading(false);
       });
+    }
+
+  }
+
+  const sortCollectionEntriesOldestToNewest = () => {
+    if (typeof collectionEntries !== 'undefined') {
+      setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
+        return (a.token.timestamp > b.token.timestamp) ? 1 : -1
+      }))
+    }
+  }
+
+  const sortCollectionEntriesNewestToOldest = () => {
+    if (typeof collectionEntries !== 'undefined') {
+      setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
+        return (b.token.timestamp > a.token.timestamp) ? 1 : -1
+      }))
     }
   }
 
