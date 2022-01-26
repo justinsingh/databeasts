@@ -96,10 +96,9 @@ const Collection = ({ address }: CollectionProps) => {
         setIsLoading(false);
       });
     }
-
   }
 
-  const sortCollectionEntriesOldestToNewest = () => {
+  const sortCollectionEntriesByOldest = () => {
     if (typeof collectionEntries !== 'undefined') {
       setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
         return (a.token.timestamp > b.token.timestamp) ? 1 : -1
@@ -107,10 +106,18 @@ const Collection = ({ address }: CollectionProps) => {
     }
   }
 
-  const sortCollectionEntriesNewestToOldest = () => {
+  const sortCollectionEntriesByNewest = () => {
     if (typeof collectionEntries !== 'undefined') {
       setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
         return (b.token.timestamp > a.token.timestamp) ? 1 : -1
+      }))
+    }
+  }
+
+  const sortCollectionEntriesByRarityDesc = () => {
+    if (typeof collectionEntries !== 'undefined') {
+      setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
+        return (a.token.supply > b.token.supply) ? 1 : -1
       }))
     }
   }
