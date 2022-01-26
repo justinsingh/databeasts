@@ -1,6 +1,7 @@
 import React from "react";
 import { CollectionEntryProps } from './Collection'
-import { getBeastNameFromTitle, getBeastNumberFromTitle, getHashFromIpfsURI } from '../utils/stringOperations'
+import { getHashFromIpfsURI } from '../utils/stringOperations'
+import { getBeastNameFromTitle, getBeastNumberFromTitle } from "../utils/beastOperations";
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react"
 import { common10EditionBeasts } from "../constants/beastData";
@@ -55,7 +56,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
           OBJKT#{token.id}
         </Text>
         <Text width={["11%"]} position="relative" top={["1.75%", "3%"]} left={["7%", "7.5%"]} fontSize={[8, 19]} fontWeight="bold" color="white">
-          #{token.id === 540845 ? "29" : getBeastNumberFromTitle(token.title)}
+          #{getBeastNumberFromTitle(token.title)}
         </Text>
         <Box as="a"
           target="_blank"
