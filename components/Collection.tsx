@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, GridItem, Spinner } from '@chakra-ui/react'
+import { Box, Button, Grid, GridItem, Spinner } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 import ScrollTopArrow from "../components/ScrollTopArrow"
@@ -24,7 +24,7 @@ export type CollectionEntryProps = {
 }
 
 type Token = {
-  id: number,
+  id: number
   display_uri: string
   title: string
   description: string
@@ -55,7 +55,27 @@ const Collection = ({ address }: CollectionProps) => {
     )
   }
 
-  const CollectionItems = () => {
+  type CollectionItemsProps = {
+    tezosAddress: string
+    tezosDomainName: string | undefined
+    totalBeasts: number
+    distinctBeasts: number
+    collectionEntries: CollectionEntryProps[] | undefined
+    sortCollectionEntriesByOldest: () => void
+    sortCollectionEntriesByNewest: () => void
+    sortCollectionEntriesByRarityDesc: () => void
+  }
+
+  const CollectionItems = ({
+    tezosAddress,
+    tezosDomainName,
+    totalBeasts,
+    distinctBeasts,
+    collectionEntries,
+    sortCollectionEntriesByOldest,
+    sortCollectionEntriesByNewest,
+    sortCollectionEntriesByRarityDesc
+  }: CollectionItemsProps) => {
     return (
       <>
         {typeof collectionEntries !== 'undefined' && (
@@ -67,6 +87,15 @@ const Collection = ({ address }: CollectionProps) => {
               totalBeasts={totalBeasts}
               distinctBeasts={distinctBeasts}
             />
+            <Button onClick={() => sortCollectionEntriesByOldest()}>
+              SORT BY OLDEST
+            </Button>
+            <Button onClick={() => sortCollectionEntriesByNewest()}>
+              SORT BY NEWEST
+            </Button>
+            <Button onClick={() => sortCollectionEntriesByRarityDesc()}>
+              SORT BY RAREST
+            </Button>
             <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
               {collectionEntries.map(entry => {
                 return (
@@ -100,25 +129,37 @@ const Collection = ({ address }: CollectionProps) => {
 
   const sortCollectionEntriesByOldest = () => {
     if (typeof collectionEntries !== 'undefined') {
-      setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
+      let newCollectionEntries = [...collectionEntries]; 
+      
+      newCollectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
         return (a.token.timestamp > b.token.timestamp) ? 1 : -1
-      }))
+      });
+
+      setCollectionEntries(newCollectionEntries);
     }
   }
 
   const sortCollectionEntriesByNewest = () => {
     if (typeof collectionEntries !== 'undefined') {
-      setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
+      let newCollectionEntries = [...collectionEntries];
+
+      newCollectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
         return (b.token.timestamp > a.token.timestamp) ? 1 : -1
-      }))
+      });
+
+      setCollectionEntries(newCollectionEntries);
     }
   }
 
   const sortCollectionEntriesByRarityDesc = () => {
     if (typeof collectionEntries !== 'undefined') {
-      setCollectionEntries(collectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
+      let newCollectionEntries = [...collectionEntries];
+
+      newCollectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
         return (a.token.supply > b.token.supply) ? 1 : -1
-      }))
+      });
+
+      setCollectionEntries(newCollectionEntries);
     }
   }
 
@@ -157,7 +198,7 @@ const Collection = ({ address }: CollectionProps) => {
       // Set tezosAddress to address
       setTezosAddress(address as string);
 
-      
+
       // Check if Tezos Domain exists for address
       // Try Tezos Domains graphQL API. If error, read from contract storage directly
       try {
@@ -184,7 +225,16 @@ const Collection = ({ address }: CollectionProps) => {
 
 
   return (
-    isLoading ? LoadingCollection() : CollectionItems()
+    isLoading ? LoadingCollection() : CollectionItems({
+      tezosAddress,
+      tezosDomainName,
+      totalBeasts,
+      distinctBeasts,
+      collectionEntries,
+      sortCollectionEntriesByOldest,
+      sortCollectionEntriesByNewest,
+      sortCollectionEntriesByRarityDesc
+    })
   )
 }
 
