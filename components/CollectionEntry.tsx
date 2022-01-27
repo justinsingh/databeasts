@@ -11,7 +11,8 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   const [isMobile] = useMediaQuery("(max-width: 30em)")
   
   // Use the card image which corresponds to the beast's rarity
-  if ((token.supply > 10 && token.id !== 572968) || (common10EditionBeasts.includes(token.id))) {
+  // TODO: Remove hard coding of Stitches and Kami OBJKT IDs (ideally with database)
+  if ((token.supply > 10 && token.id !== 572968 && token.id !== 649048) || (common10EditionBeasts.includes(token.id))) {
     cardImageSrc = require('../public/collection_entry/card_frame_1_common.png').default.src;
   }
   else if (token.supply > 5) {
