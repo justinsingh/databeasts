@@ -32,6 +32,100 @@ type Token = {
   timestamp: string
 }
 
+type CollectionItemsProps = {
+  tezosAddress: string
+  tezosDomainName: string | undefined
+  totalBeasts: number
+  distinctBeasts: number
+  collectionEntries: CollectionEntryProps[] | undefined
+  sortCollectionEntries: (sortingFunction: (a: CollectionEntryProps, b: CollectionEntryProps) => number ) => void
+  //sortCollectionEntriesByOldest: (a: CollectionEntryProps, b:CollectionEntryProps) => void
+  //sortCollectionEntriesByNewest: (a: CollectionEntryProps, b:CollectionEntryProps) => void
+  //sortCollectionEntriesByRarityDesc: (a: CollectionEntryProps, b:CollectionEntryProps) => void
+  //sortCollectionEntriesByRarityAsc: (a: CollectionEntryProps, b:CollectionEntryProps) => void
+}
+
+const CollectionItems = ({
+  tezosAddress,
+  tezosDomainName,
+  totalBeasts,
+  distinctBeasts,
+  collectionEntries,
+  sortCollectionEntries,
+  //sortCollectionEntriesByOldest,
+  //sortCollectionEntriesByNewest,
+  //sortCollectionEntriesByRarityDesc,
+  //sortCollectionEntriesByRarityAsc
+}: CollectionItemsProps) => {
+  return (
+    <>
+      {typeof collectionEntries !== 'undefined' && (
+        <>
+          <ScrollTopArrow />
+          <CollectionInfo
+            address={tezosAddress}
+            domainName={tezosDomainName}
+            totalBeasts={totalBeasts}
+            distinctBeasts={distinctBeasts}
+          />
+          <Button onClick={() => sortCollectionEntries(sortByOldest)}>
+            SORT BY OLDEST
+          </Button>
+          <Button onClick={() => sortCollectionEntries(sortByNewest)}>
+            SORT BY NEWEST
+          </Button>
+          <Button onClick={() => sortCollectionEntries(sortByRarityDesc)}>
+            SORT BY RARITY DESC
+          </Button>
+          <Button onClick={() => sortCollectionEntries(sortByRarityAsc)}>
+            SORT BY RARITY ASC
+          </Button>
+          <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
+            {collectionEntries.map(entry => {
+              return (
+                <GridItem p={1.5} key={entry.token.id}>
+                  <CollectionEntry quantity={entry.quantity} token={entry.token} />
+                </GridItem>
+              )
+            }
+            )}
+          </Grid>
+        </>
+      )}
+    </>
+  )
+}
+
+const LoadingCollection = () => {
+  return (
+    <Box position="absolute" top={["50%"]}>
+      <Spinner
+        thickness="8px"
+        speed='0.55s'
+        emptyColor='white'
+        color='blue.500'
+        size='xl'
+      />
+    </Box>
+  )
+}
+
+const sortByOldest = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
+  return (a.token.timestamp > b.token.timestamp) ? 1 : -1
+}
+
+const sortByNewest = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
+  return (b.token.timestamp > a.token.timestamp) ? 1 : -1
+}
+
+const sortByRarityDesc = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
+  return (a.token.supply > b.token.supply) ? 1 : -1
+}
+
+const sortByRarityAsc = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
+  return (a.token.supply > b.token.supply) ? -1 : 1
+}
+
 const Collection = ({ address }: CollectionProps) => {
   const [collectionEntries, setCollectionEntries] = useState<CollectionEntryProps[]>()
   const [totalBeasts, setTotalBeasts] = useState<number>(0);
@@ -40,77 +134,6 @@ const Collection = ({ address }: CollectionProps) => {
   const [tezosAddress, setTezosAddress] = useState<string>(address as string);
   const [tezosDomainName, setTezosDomainName] = useState<string | undefined>(undefined);
   const { Tezos } = useDataBeastsContext();
-
-  const LoadingCollection = () => {
-    return (
-      <Box position="absolute" top={["50%"]}>
-        <Spinner
-          thickness="8px"
-          speed='0.55s'
-          emptyColor='white'
-          color='blue.500'
-          size='xl'
-        />
-      </Box>
-    )
-  }
-
-  type CollectionItemsProps = {
-    tezosAddress: string
-    tezosDomainName: string | undefined
-    totalBeasts: number
-    distinctBeasts: number
-    collectionEntries: CollectionEntryProps[] | undefined
-    sortCollectionEntriesByOldest: () => void
-    sortCollectionEntriesByNewest: () => void
-    sortCollectionEntriesByRarityDesc: () => void
-  }
-
-  const CollectionItems = ({
-    tezosAddress,
-    tezosDomainName,
-    totalBeasts,
-    distinctBeasts,
-    collectionEntries,
-    sortCollectionEntriesByOldest,
-    sortCollectionEntriesByNewest,
-    sortCollectionEntriesByRarityDesc
-  }: CollectionItemsProps) => {
-    return (
-      <>
-        {typeof collectionEntries !== 'undefined' && (
-          <>
-            <ScrollTopArrow />
-            <CollectionInfo
-              address={tezosAddress}
-              domainName={tezosDomainName}
-              totalBeasts={totalBeasts}
-              distinctBeasts={distinctBeasts}
-            />
-            <Button onClick={() => sortCollectionEntriesByOldest()}>
-              SORT BY OLDEST
-            </Button>
-            <Button onClick={() => sortCollectionEntriesByNewest()}>
-              SORT BY NEWEST
-            </Button>
-            <Button onClick={() => sortCollectionEntriesByRarityDesc()}>
-              SORT BY RAREST
-            </Button>
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
-              {collectionEntries.map(entry => {
-                return (
-                  <GridItem p={1.5} key={entry.token.id}>
-                    <CollectionEntry quantity={entry.quantity} token={entry.token} />
-                  </GridItem>
-                )
-              }
-              )}
-            </Grid>
-          </>
-        )}
-      </>
-    )
-  }
 
   const initializeCollection = (address: string) => {
     // Fetch collection data if address is a string.
@@ -127,37 +150,11 @@ const Collection = ({ address }: CollectionProps) => {
     }
   }
 
-  const sortCollectionEntriesByOldest = () => {
-    if (typeof collectionEntries !== 'undefined') {
-      let newCollectionEntries = [...collectionEntries]; 
-      
-      newCollectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
-        return (a.token.timestamp > b.token.timestamp) ? 1 : -1
-      });
-
-      setCollectionEntries(newCollectionEntries);
-    }
-  }
-
-  const sortCollectionEntriesByNewest = () => {
+  const sortCollectionEntries = (sortingFunction: (a: CollectionEntryProps, b: CollectionEntryProps) => number): void => {
     if (typeof collectionEntries !== 'undefined') {
       let newCollectionEntries = [...collectionEntries];
 
-      newCollectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
-        return (b.token.timestamp > a.token.timestamp) ? 1 : -1
-      });
-
-      setCollectionEntries(newCollectionEntries);
-    }
-  }
-
-  const sortCollectionEntriesByRarityDesc = () => {
-    if (typeof collectionEntries !== 'undefined') {
-      let newCollectionEntries = [...collectionEntries];
-
-      newCollectionEntries.sort((a: CollectionEntryProps, b: CollectionEntryProps) => {
-        return (a.token.supply > b.token.supply) ? 1 : -1
-      });
+      newCollectionEntries.sort(sortingFunction);
 
       setCollectionEntries(newCollectionEntries);
     }
@@ -231,9 +228,11 @@ const Collection = ({ address }: CollectionProps) => {
       totalBeasts,
       distinctBeasts,
       collectionEntries,
-      sortCollectionEntriesByOldest,
-      sortCollectionEntriesByNewest,
-      sortCollectionEntriesByRarityDesc
+      sortCollectionEntries,
+      //sortCollectionEntriesByOldest,
+      //sortCollectionEntriesByNewest,
+      //sortCollectionEntriesByRarityDesc,
+      //sortCollectionEntriesByRarityAsc
     })
   )
 }
