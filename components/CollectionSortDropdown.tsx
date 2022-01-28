@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { CollectionEntryProps } from './CollectionEntry'
-import { Box } from '@chakra-ui/react'
+import { Box, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react'
 import { rare15EditionBeasts } from '../constants/beastData'
 
 type CollectionSortDropdownProps = {
@@ -41,9 +42,40 @@ const sortByEditionCountAsc = (a: CollectionEntryProps, b: CollectionEntryProps)
 }
 
 const CollectionSortDropdown = ({ sortCollectionEntries }: CollectionSortDropdownProps) => {
+  const [selectedSortText, setSelectedSortText] = useState<string>("Newest");
+
   return (
-    <Box>
-    </Box>
+    <Menu>
+      <MenuButton as={Button}>
+        Sort By: {selectedSortText}
+      </MenuButton>
+      <MenuList>
+        <MenuItem onClick={() => {
+          sortCollectionEntries(sortByNewest);
+          setSelectedSortText("Newest");
+        }}>
+          Newest
+        </MenuItem>
+        <MenuItem onClick={() => {
+          sortCollectionEntries(sortByOldest);
+          setSelectedSortText("Oldest");
+        }}>
+          Oldest
+        </MenuItem>
+        <MenuItem onClick={() => {
+          sortCollectionEntries(sortByEditionCountDesc);
+          setSelectedSortText("Number of Editions (Descending)");
+        }}>
+          Number of Editions (Descending)
+        </MenuItem>
+        <MenuItem onClick={() => {
+          sortCollectionEntries(sortByEditionCountAsc);
+          setSelectedSortText("Number of Editions (Ascending)");
+        }}>
+          Number of Editions (Ascending)
+        </MenuItem>
+      </MenuList>
+    </Menu>
   )
 }
 
