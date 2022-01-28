@@ -1,10 +1,15 @@
 import React from "react";
-import { CollectionEntryProps } from './Collection'
+import { Token } from "../types";
 import { getHashFromIpfsURI } from '../utils/stringOperations'
 import { getBeastNameFromTitle, getBeastNumberFromTitle } from "../utils/beastOperations";
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react"
 import { common10EditionBeasts } from "../constants/beastData";
+
+export type CollectionEntryProps = {
+  quantity: number
+  token: Token
+}
 
 const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   var entryImageSrc: string;

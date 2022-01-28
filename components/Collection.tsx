@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, GridItem, Spinner } from '@chakra-ui/react'
+import { Button, Grid, GridItem } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 import ScrollTopArrow from "../components/ScrollTopArrow"
 import LoadingWheel from "./LoadingWheel";
+import { CollectionEntryProps } from "./CollectionEntry";
 import { isTezosDomainName } from "../utils/stringOperations";
 import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezosDomains";
 import { useDataBeastsContext } from '../context/DataBeastsContext'
@@ -18,20 +19,6 @@ type CollectionProps = {
   This causes the need for additional checks.
   */
   address: string | string[] | undefined
-}
-
-export type CollectionEntryProps = {
-  quantity: number
-  token: Token
-}
-
-type Token = {
-  id: number
-  display_uri: string
-  title: string
-  description: string
-  supply: number
-  timestamp: string
 }
 
 type CollectionItemsProps = {
