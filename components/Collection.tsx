@@ -8,6 +8,7 @@ import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezos
 import { useDataBeastsContext } from '../context/DataBeastsContext'
 import { fetchCollection } from '../utils/hicdex'
 import { fetchDomainRecord, fetchReverseRecord } from '../utils/tezosDomains'
+import { rare15EditionBeasts } from '../constants/beastData'
 
 type CollectionProps = {
   /*
@@ -39,10 +40,6 @@ type CollectionItemsProps = {
   distinctBeasts: number
   collectionEntries: CollectionEntryProps[] | undefined
   sortCollectionEntries: (sortingFunction: (a: CollectionEntryProps, b: CollectionEntryProps) => number ) => void
-  //sortCollectionEntriesByOldest: (a: CollectionEntryProps, b:CollectionEntryProps) => void
-  //sortCollectionEntriesByNewest: (a: CollectionEntryProps, b:CollectionEntryProps) => void
-  //sortCollectionEntriesByRarityDesc: (a: CollectionEntryProps, b:CollectionEntryProps) => void
-  //sortCollectionEntriesByRarityAsc: (a: CollectionEntryProps, b:CollectionEntryProps) => void
 }
 
 const CollectionItems = ({
@@ -52,10 +49,6 @@ const CollectionItems = ({
   distinctBeasts,
   collectionEntries,
   sortCollectionEntries,
-  //sortCollectionEntriesByOldest,
-  //sortCollectionEntriesByNewest,
-  //sortCollectionEntriesByRarityDesc,
-  //sortCollectionEntriesByRarityAsc
 }: CollectionItemsProps) => {
   return (
     <>
@@ -74,10 +67,10 @@ const CollectionItems = ({
           <Button onClick={() => sortCollectionEntries(sortByNewest)}>
             SORT BY NEWEST
           </Button>
-          <Button onClick={() => sortCollectionEntries(sortByRarityDesc)}>
+          <Button onClick={() => sortCollectionEntries(sortByEditionCountDesc)}>
             SORT BY RARITY DESC
           </Button>
-          <Button onClick={() => sortCollectionEntries(sortByRarityAsc)}>
+          <Button onClick={() => sortCollectionEntries(sortByEditionCountAsc)}>
             SORT BY RARITY ASC
           </Button>
           <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
@@ -118,12 +111,30 @@ const sortByNewest = (a: CollectionEntryProps, b: CollectionEntryProps): number 
   return (b.token.timestamp > a.token.timestamp) ? 1 : -1
 }
 
-const sortByRarityDesc = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
-  return (a.token.supply > b.token.supply) ? 1 : -1
+const sortByEditionCountDesc = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
+  // Sort beasts with lower edition counts in front of beasts with higher edition counts
+  if (a.token.supply < b.token.supply) return -1;
+  if (a.token.supply > b.token.supply) return 1;
+
+  // Sort equal edition numbered beasts with purple color in front of blue beasts
+  if (rare15EditionBeasts.includes(a.token.id)) return -1;
+  if (rare15EditionBeasts.includes(b.token.id)) return 1;
+
+  // Sort equal edition numbered beasts by timestamp (most recent beasts first)
+  return (a.token.timestamp > b.token.timestamp) ? -1 : 1; 
 }
 
-const sortByRarityAsc = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
-  return (a.token.supply > b.token.supply) ? -1 : 1
+const sortByEditionCountAsc = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
+  // Sort beasts with higher edition counts in front of beasts with lower edition counts
+  if (a.token.supply < b.token.supply) return 1;
+  if (a.token.supply > b.token.supply) return -1;
+
+  // Sort equal edition numbered beasts with purple color behind blue beasts
+  if (rare15EditionBeasts.includes(a.token.id)) return 1;
+  if (rare15EditionBeasts.includes(b.token.id)) return -1;
+
+  // Sort equal edition numbered beasts by timestamp (most recent beasts first)
+  return (a.token.timestamp > b.token.timestamp) ? -1 : 1;
 }
 
 const Collection = ({ address }: CollectionProps) => {
@@ -229,10 +240,6 @@ const Collection = ({ address }: CollectionProps) => {
       distinctBeasts,
       collectionEntries,
       sortCollectionEntries,
-      //sortCollectionEntriesByOldest,
-      //sortCollectionEntriesByNewest,
-      //sortCollectionEntriesByRarityDesc,
-      //sortCollectionEntriesByRarityAsc
     })
   )
 }
