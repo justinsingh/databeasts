@@ -3,6 +3,7 @@ import { Box, Button, Grid, GridItem, Spinner } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
 import CollectionEntry from './CollectionEntry'
 import ScrollTopArrow from "../components/ScrollTopArrow"
+import LoadingWheel from "./LoadingWheel";
 import { isTezosDomainName } from "../utils/stringOperations";
 import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezosDomains";
 import { useDataBeastsContext } from '../context/DataBeastsContext'
@@ -86,20 +87,6 @@ const CollectionItems = ({
         </>
       )}
     </>
-  )
-}
-
-const LoadingCollection = () => {
-  return (
-    <Box position="absolute" top={["50%"]}>
-      <Spinner
-        thickness="8px"
-        speed='0.55s'
-        emptyColor='white'
-        color='blue.500'
-        size='xl'
-      />
-    </Box>
   )
 }
 
@@ -233,7 +220,7 @@ const Collection = ({ address }: CollectionProps) => {
 
 
   return (
-    isLoading ? LoadingCollection() : CollectionItems({
+    isLoading ? LoadingWheel() : CollectionItems({
       tezosAddress,
       tezosDomainName,
       totalBeasts,
