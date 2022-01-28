@@ -1,5 +1,6 @@
-import { Button, Grid, GridItem } from '@chakra-ui/react'
+import { Grid, GridItem } from '@chakra-ui/react'
 import CollectionInfo from "./CollectionInfo";
+import CollectionSortDropdown from './CollectionSortDropdown'
 import CollectionEntry from './CollectionEntry'
 import ScrollTopArrow from "../components/ScrollTopArrow"
 import { CollectionEntryProps } from '../components/CollectionEntry'
@@ -32,6 +33,7 @@ const CollectionItems = ({
             totalBeasts={totalBeasts}
             distinctBeasts={distinctBeasts}
           />
+          <CollectionSortDropdown sortCollectionEntries={sortCollectionEntries} />
           <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
             {collectionEntries.map(entry => {
               return (
