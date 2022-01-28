@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Button, Grid, GridItem } from '@chakra-ui/react'
-import CollectionInfo from "./CollectionInfo";
-import CollectionEntry from './CollectionEntry'
-import ScrollTopArrow from "../components/ScrollTopArrow"
+import { useEffect, useState } from "react";
 import LoadingWheel from "./LoadingWheel";
+import CollectionItems from "./CollectionItems";
 import { CollectionEntryProps } from "./CollectionEntry";
 import { isTezosDomainName } from "../utils/stringOperations";
 import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezosDomains";
@@ -19,62 +16,6 @@ type CollectionProps = {
   This causes the need for additional checks.
   */
   address: string | string[] | undefined
-}
-
-type CollectionItemsProps = {
-  tezosAddress: string
-  tezosDomainName: string | undefined
-  totalBeasts: number
-  distinctBeasts: number
-  collectionEntries: CollectionEntryProps[] | undefined
-  sortCollectionEntries: (sortingFunction: (a: CollectionEntryProps, b: CollectionEntryProps) => number ) => void
-}
-
-const CollectionItems = ({
-  tezosAddress,
-  tezosDomainName,
-  totalBeasts,
-  distinctBeasts,
-  collectionEntries,
-  sortCollectionEntries,
-}: CollectionItemsProps) => {
-  return (
-    <>
-      {typeof collectionEntries !== 'undefined' && (
-        <>
-          <ScrollTopArrow />
-          <CollectionInfo
-            address={tezosAddress}
-            domainName={tezosDomainName}
-            totalBeasts={totalBeasts}
-            distinctBeasts={distinctBeasts}
-          />
-          <Button onClick={() => sortCollectionEntries(sortByOldest)}>
-            SORT BY OLDEST
-          </Button>
-          <Button onClick={() => sortCollectionEntries(sortByNewest)}>
-            SORT BY NEWEST
-          </Button>
-          <Button onClick={() => sortCollectionEntries(sortByEditionCountDesc)}>
-            SORT BY RARITY DESC
-          </Button>
-          <Button onClick={() => sortCollectionEntries(sortByEditionCountAsc)}>
-            SORT BY RARITY ASC
-          </Button>
-          <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
-            {collectionEntries.map(entry => {
-              return (
-                <GridItem p={1.5} key={entry.token.id}>
-                  <CollectionEntry quantity={entry.quantity} token={entry.token} />
-                </GridItem>
-              )
-            }
-            )}
-          </Grid>
-        </>
-      )}
-    </>
-  )
 }
 
 const sortByOldest = (a: CollectionEntryProps, b: CollectionEntryProps): number => {
