@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { CollectionEntryProps } from './CollectionEntry'
 import { Box, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react'
 import { rare15EditionBeasts } from '../constants/beastData'
+import { IoIosArrowDown } from 'react-icons/io'
 
 type CollectionSortDropdownProps = {
   sortCollectionEntries: (sortingFunction: (a: CollectionEntryProps, b: CollectionEntryProps) => number ) => void
@@ -46,8 +47,8 @@ const CollectionSortDropdown = ({ sortCollectionEntries }: CollectionSortDropdow
 
   return (
     <Menu>
-      <MenuButton as={Button}>
-        Sort By: {selectedSortText}
+      <MenuButton as={Button} fontSize={["3vw", "1.0vw"]} maxW={["80vw","30vw"]} rightIcon={<IoIosArrowDown />}>
+        {selectedSortText}
       </MenuButton>
       <MenuList>
         <MenuItem onClick={() => {
