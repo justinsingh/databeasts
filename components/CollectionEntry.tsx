@@ -18,10 +18,13 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   else if (token.supply > 5) {
     cardImageSrc = require('../public/collection_entry/card_frame_1_rare.png').default.src;
   }
-  else {
+  else if (token.supply > 3) {
     cardImageSrc = require('../public/collection_entry/card_frame_1_legendary.png').default.src;
   }
-  
+  else {
+    cardImageSrc = require('../public/collection_entry/card_frame_1_ethereal.png').default.src;
+  }
+
   // Source the beast gif from mobile or standard beast_gifs folder. Use ipfs.io if not found.
   try {
     entryImageSrc = isMobile ? require('../public/mobile_beast_gifs/' + token.id + '.gif').default.src 
@@ -31,7 +34,6 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   }
   
   return (
-
     <Box
       position={"relative"}
       width={["100%", 455]}
