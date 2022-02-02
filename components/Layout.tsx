@@ -22,7 +22,7 @@ const Layout = ({ children }: LayoutProps) => {
       <Box zIndex={-1} position={["fixed", "fixed"]} width="100vw" height={["100vh", "100vh"]} bgImage={backgroundImage.src} bgSize="cover" bgPosition="center" bgRepeat="repeat"></Box>
       
       <Center>
-        <Box mt={[4, 0]} mb={5} maxW={["85vw", "45vw"]}>
+        <Box mt={[4, 0]} mb={2} maxW={["85vw", "45vw"]}>
           <Center>
             <Link href="/">
               <Image cursor="pointer" width="100%" height="100%" src={titleImage.src} alt="DataBeasts Title Image" />
