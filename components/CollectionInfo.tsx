@@ -26,7 +26,7 @@ const CollectionInfo = ({ address, domainName, totalBeasts, distinctBeasts }: Co
     <Tooltip hasArrow label="Click To Copy Collection URL" placement="top" openDelay={175} >
       <Box
         maxW={["80vw", "30vw"]}
-        marginBottom={2}
+        paddingTop={[1]}
         paddingBottom={[1]}
         paddingLeft={[5]}
         paddingRight={[5]}

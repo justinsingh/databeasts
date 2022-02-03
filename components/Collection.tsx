@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Box, Grid, GridItem, Spinner } from '@chakra-ui/react'
-import CollectionInfo from "./CollectionInfo";
-import CollectionEntry from './CollectionEntry'
-import ScrollTopArrow from "../components/ScrollTopArrow"
+import { useEffect, useState } from "react";
+import LoadingWheel from "./LoadingWheel";
+import CollectionItems from "./CollectionItems";
+import { CollectionEntryProps } from "./CollectionEntry";
 import { isTezosDomainName } from "../utils/stringOperations";
 import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezosDomains";
 import { useDataBeastsContext } from '../context/DataBeastsContext'
@@ -18,19 +17,6 @@ type CollectionProps = {
   address: string | string[] | undefined
 }
 
-export type CollectionEntryProps = {
-  quantity: number
-  token: Token
-}
-
-type Token = {
-  id: number,
-  display_uri: string
-  title: string
-  description: string
-  supply: number
-}
-
 const Collection = ({ address }: CollectionProps) => {
   const [collectionEntries, setCollectionEntries] = useState<CollectionEntryProps[]>()
   const [totalBeasts, setTotalBeasts] = useState<number>(0);
@@ -39,48 +25,6 @@ const Collection = ({ address }: CollectionProps) => {
   const [tezosAddress, setTezosAddress] = useState<string>(address as string);
   const [tezosDomainName, setTezosDomainName] = useState<string | undefined>(undefined);
   const { Tezos } = useDataBeastsContext();
-
-  const LoadingCollection = () => {
-    return (
-      <Box position="absolute" top={["50%"]}>
-        <Spinner
-          thickness="8px"
-          speed='0.55s'
-          emptyColor='white'
-          color='blue.500'
-          size='xl'
-        />
-      </Box>
-    )
-  }
-
-  const CollectionItems = () => {
-    return (
-      <>
-        {typeof collectionEntries !== 'undefined' && (
-          <>
-            <ScrollTopArrow />
-            <CollectionInfo
-              address={tezosAddress}
-              domainName={tezosDomainName}
-              totalBeasts={totalBeasts}
-              distinctBeasts={distinctBeasts}
-            />
-            <Grid templateColumns={["repeat(2, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}>
-              {collectionEntries.map(entry => {
-                return (
-                  <GridItem p={1.5} key={entry.token.id}>
-                    <CollectionEntry quantity={entry.quantity} token={entry.token} />
-                  </GridItem>
-                )
-              }
-              )}
-            </Grid>
-          </>
-        )}
-      </>
-    )
-  }
 
   const initializeCollection = (address: string) => {
     // Fetch collection data if address is a string.
@@ -94,6 +38,16 @@ const Collection = ({ address }: CollectionProps) => {
         );
         setIsLoading(false);
       });
+    }
+  }
+
+  const sortCollectionEntries = (sortingFunction: (a: CollectionEntryProps, b: CollectionEntryProps) => number): void => {
+    if (typeof collectionEntries !== 'undefined') {
+      let newCollectionEntries = [...collectionEntries];
+
+      newCollectionEntries.sort(sortingFunction);
+
+      setCollectionEntries(newCollectionEntries);
     }
   }
 
@@ -132,7 +86,7 @@ const Collection = ({ address }: CollectionProps) => {
       // Set tezosAddress to address
       setTezosAddress(address as string);
 
-      
+
       // Check if Tezos Domain exists for address
       // Try Tezos Domains graphQL API. If error, read from contract storage directly
       try {
@@ -159,7 +113,14 @@ const Collection = ({ address }: CollectionProps) => {
 
 
   return (
-    isLoading ? LoadingCollection() : CollectionItems()
+    isLoading ? LoadingWheel() : CollectionItems({
+      tezosAddress,
+      tezosDomainName,
+      totalBeasts,
+      distinctBeasts,
+      collectionEntries,
+      sortCollectionEntries,
+    })
   )
 }
 
