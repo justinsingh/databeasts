@@ -65,7 +65,7 @@ const CollectionSortDropdown = ({ sortCollectionEntries }: CollectionSortDropdow
 
   return (
     <Box>
-      <Menu>
+      <Menu gutter={3}>
         <MenuButton
           // Positioned to right
           //position="absolute"
