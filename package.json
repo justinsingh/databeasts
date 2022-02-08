@@ -11,6 +11,8 @@
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
+    "@react-three/cannon": "^4.6.1",
+    "@react-three/drei": "^8.8.3",
     "@react-three/fiber": "^7.0.26",
     "@taquito/beacon-wallet": "^11.0.0",
     "@taquito/rpc": "^11.1.0",
