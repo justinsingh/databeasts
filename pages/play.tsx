@@ -1,9 +1,11 @@
+import { useRef } from 'react'
 import type { NextPage } from 'next'
 import { Box, VStack } from '@chakra-ui/react'
 import { Canvas } from '@react-three/fiber'
 import Eli from '../components/models/Eli'
 import { Ground } from '../components/models/Ground'
 import { Player } from '../components/models/Player'
+import { Text } from '@react-three/drei'
 
 import { PointerLockControls, OrbitControls, Environment, Sky } from '@react-three/drei'
 import { Suspense } from 'react'
@@ -18,19 +20,22 @@ const Light = () => {
   )
 }
 
-const Cube = () => {
+const Cube = (props: any) => {
+  const ref = useRef();
   return (
-    <mesh>
-      <boxGeometry args={[2, 2, 2]} />
-      <meshStandardMaterial />
-    </mesh>
+    <group ref={ref} {...props}>
+      <mesh>
+        <boxGeometry args={[2, 2, 2]} />
+        <meshStandardMaterial />
+      </mesh>
+    </group>
   )
 }
 
 const Play: NextPage = () => {
   return (
     <VStack>
-      <Box alignItems="center" width={["60vw"]} height={["60vh"]}>
+      <Box alignItems="center" width={["80vw"]} height={["80vh"]}>
         <Canvas
           shadows
           gl={{ alpha: false }}
@@ -43,9 +48,9 @@ const Play: NextPage = () => {
           <ambientLight intensity={0.3} />
           <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
           <Physics gravity={[0, -30, 0]}>
-            <Ground />
             <Player />
-            <Eli position={[0, 0.5, -10]} />
+            <Eli position={[0, 0, -10]} />
+            <Ground />
           </Physics>
           <PointerLockControls />
         </Canvas>
