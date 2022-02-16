@@ -50,13 +50,13 @@ export const Player = (props) => {
     axe.current.rotation.copy(camera.rotation)
     axe.current.position.copy(camera.position).add(camera.getWorldDirection(rotation).multiplyScalar(1))
     api.velocity.set(direction.x, velocity.current[1], direction.z)
-    if (jump && Math.abs(velocity.current[1].toFixed(2)) < 0.05) api.velocity.set(velocity.current[0], 10, velocity.current[2])
+    if (jump && Math.abs(velocity.current[1].toFixed(2)) < 0.01) api.velocity.set(velocity.current[0], 10, velocity.current[2])
   })
   return (
     <>
       <mesh ref={ref} />
       <group ref={axe} onPointerMissed={(e) => (axe.current.children[0].rotation.x = -0.5)}>
-        <Axe position={[0.3, -0.35, 0.5]} />
+        <Axe position={[1.3, -1.0, -1.20]} />
       </group>
     </>
   )
