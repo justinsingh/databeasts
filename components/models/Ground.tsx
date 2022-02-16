@@ -5,12 +5,12 @@ import grass from "../../public/textures/grass.jpg"
 
 export const Ground = (props: any) => {
   const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }))
-  const texture = useLoader(THREE.TextureLoader, grass.src)
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+  //const texture = useLoader(THREE.TextureLoader, grass.src)
+  //texture.wrapS = texture.wrapT = THREE.RepeatWrapping
   return (
     <mesh ref={ref} receiveShadow>
       <planeGeometry args={[1000, 1000]} />
-      <meshStandardMaterial map={texture} map-repeat={[240, 240]} color="green" />
+      <meshStandardMaterial color="green" />
     </mesh>
   )
 }
