@@ -4,7 +4,7 @@ import { getHashFromIpfsURI } from '../utils/stringOperations'
 import { getBeastNameFromTitle, getBeastNumberFromTitle } from "../utils/beastOperations";
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react"
-import { common10EditionBeasts } from "../constants/beastData";
+import { common10EditionBeasts, rare15EditionBeasts } from "../constants/beastData";
 
 export type CollectionEntryProps = {
   quantity: number
@@ -18,7 +18,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   
   // Use the card image which corresponds to the beast's rarity
   // TODO: Remove hard coding of Stitches and Kami OBJKT IDs (ideally with database)
-  if ((token.supply > 10 && token.id !== 572968 && token.id !== 649048) || (common10EditionBeasts.includes(token.id))) {
+  if ((token.supply > 10 && !rare15EditionBeasts.includes(token.id)) || (common10EditionBeasts.includes(token.id))) {
     cardImageSrc = require('../public/collection_entry/card_frame_1_common.png').default.src;
   }
   else if (token.supply > 5) {
