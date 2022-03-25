@@ -48,7 +48,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
       _hover={{ transform: 'scale(1.01)' }} 
       transition="all ease-in 75ms"
     >
-      <Image width={["160px", "100%"]} height={["auto", "522"]} src={cardImageSrc} />
+      <Image width={["160px", "100%"]} height={["auto", "522"]} src={cardImageSrc} alt="Image of card" />
       <Box position="absolute" top='0' left='0' width="100%" height="100%" overflow="hidden">
         <Text
           width={["36%", "33%"]}
@@ -75,7 +75,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
           width={[140, 400]}
           height={[140, 400]}
         />
-        <Image position="relative" left={["6.5%", "7%"]} top={[-3, "-5.15%"]} zIndex={-1} width={[140, 400]} height={[140, 400]} src={entryImageSrc} />
+        <Image position="relative" left={["6.5%", "7%"]} top={[-3, "-5.15%"]} zIndex={-1} width={[140, 400]} height={[140, 400]} src={entryImageSrc} alt="Gif Image of Data Beast" />
         <HStack
           width={["85%"]}
           position="relative"
