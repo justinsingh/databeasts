@@ -3,6 +3,7 @@ import type { NextPage } from 'next'
 import { Box, VStack } from '@chakra-ui/react'
 import { Canvas } from '@react-three/fiber'
 import Eli from '../components/models/Eli'
+import Momo from '../components/models/Momo'
 import { Ground } from '../components/models/Ground'
 import { Player } from '../components/models/Player'
 import { Text } from '@react-three/drei'
@@ -49,7 +50,7 @@ const Play: NextPage = () => {
           <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
           <Physics gravity={[0, -30, 0]}>
             <Player />
-            <Eli position={[0, 0, -10]} />
+            <Momo position={[0, 0, -10]} />
             <Ground />
           </Physics>
           <PointerLockControls />
