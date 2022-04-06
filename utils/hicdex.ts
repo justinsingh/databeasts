@@ -4,6 +4,15 @@ type BeastCollectionQueryVariables = {
   address: string
 }
 
+// URL to indexer that HEN uses
+const HEN_INDEXER_URL = "https://hdapi.teztools.io/v1/graphql";
+
+// URL to Hicdex
+const HICDEX_URL = "https://api.hicdex.com/graphiql/";
+
+// URL to indexer that Teia uses (untested, I've been told they have an additional 'contract_address' field which may require a new query)
+const TEIA_INDEXER_URL = "https://api.teia.art/v1/graphql"
+
 // Retrieves all DataBeasts owned by an address
 const beastCollectionQuery = `
 query collectorGallery($address: String!) {
@@ -22,7 +31,7 @@ query collectorGallery($address: String!) {
 `;
 
 export const fetchCollection = async (variables: BeastCollectionQueryVariables) => {
-  const { errors, data } = await fetchGraphQL("https://hdapi.teztools.io/v1/graphql", beastCollectionQuery, 'collectorGallery', variables);
+  const { errors, data } = await fetchGraphQL(HEN_INDEXER_URL, beastCollectionQuery, 'collectorGallery', variables);
   if (errors) {
     console.error(errors);
   }
