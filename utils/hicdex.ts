@@ -22,7 +22,7 @@ query collectorGallery($address: String!) {
 `;
 
 export const fetchCollection = async (variables: BeastCollectionQueryVariables) => {
-  const { errors, data } = await fetchGraphQL("https://api.hicdex.com/v1/graphql", beastCollectionQuery, 'collectorGallery', variables);
+  const { errors, data } = await fetchGraphQL("https://hdapi.teztools.io/v1/graphql", beastCollectionQuery, 'collectorGallery', variables);
   if (errors) {
     console.error(errors);
   }
