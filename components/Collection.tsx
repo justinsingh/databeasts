@@ -5,7 +5,8 @@ import { CollectionEntryProps } from "./CollectionEntry";
 import { isTezosDomainName } from "../utils/stringOperations";
 import { getTezosAddressFromName, getTezosNameFromAddress } from "../utils/tezosDomains";
 import { useDataBeastsContext } from '../context/DataBeastsContext'
-import { fetchCollection } from '../utils/hicdex'
+//import { fetchCollection } from '../utils/hicdex' // HEN API collection query
+import { fetchCollection } from "../utils/objktcom"; // OBJKT.com collection query
 import { fetchDomainRecord, fetchReverseRecord } from '../utils/tezosDomains'
 
 type CollectionProps = {
