@@ -31,9 +31,13 @@ export const fetchCollection = async (variables: BeastCollectionQueryVariables) 
     console.error(errors);
   }
   const result = data.token_holder;
-  /*
-  console.log(result);
 
+  // Convert id field of tokens in collection to be a number
+  result.forEach((obj: CollectionEntryProps) => {
+    obj.token.id = Number(obj.token.id);
+  })
+
+  /*
   // Copy 'name' token key to new 'title' token key to please previous naming convention on HICDEX
   result.forEach((element: CollectionEntryProps)  => {
     element.token.title = element.token.name as string; 
