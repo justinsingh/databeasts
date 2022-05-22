@@ -4,7 +4,7 @@ import { getHashFromIpfsURI } from '../utils/stringOperations'
 import { getBeastNameFromTitle, getBeastNumberFromTitle } from "../utils/beastOperations";
 import { Image, Box, HStack, Text } from "@chakra-ui/react";
 import { useMediaQuery } from "@chakra-ui/react"
-import { common10EditionBeasts, rare15EditionBeasts } from "../constants/beastData";
+import { common10EditionBeasts, rare15EditionBeasts, ethereal5EditionBeasts } from "../constants/beastData";
 
 export type CollectionEntryProps = {
   quantity: number
@@ -23,7 +23,7 @@ const CollectionEntry = ({ quantity, token }: CollectionEntryProps) => {
   else if (token.supply > 5) {
     cardImageSrc = require('../public/collection_entry/card_frame_1_rare.png').default.src;
   }
-  else if (token.supply > 3) {
+  else if (token.supply > 3 && !ethereal5EditionBeasts.includes(token.id)) {
     cardImageSrc = require('../public/collection_entry/card_frame_1_legendary.png').default.src;
   }
   else {
